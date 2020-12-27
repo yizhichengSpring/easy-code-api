@@ -10,4 +10,4 @@ spring:
     password: passw0rd
   data:
     mongodb:
-      uri: mongodb://47.95.3.32:27017/admin
+      uri: mongodb://admin:passw0rd@47.95.3.32:27017/log
