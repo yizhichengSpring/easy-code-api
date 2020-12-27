@@ -2,7 +2,6 @@ package com.yi.easycode.modules.service;
 
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.dto.GenerateDTO;
-import com.yi.easycode.modules.entity.GenerateEntity;
 
 /**
  * @author yizhicheng
