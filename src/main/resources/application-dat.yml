@@ -1,0 +1,13 @@
+spring:
+  redis:
+    database: 1
+    host: 47.95.3.32
+    port: 6379
+    password: passw0rd
+  datasource:
+    url: jdbc:mysql://47.95.3.32:3307/easy_code?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: passw0rd
+  data:
+    mongodb:
+      uri: mongodb://47.95.3.32:27017/admin

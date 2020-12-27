@@ -3,11 +3,6 @@ server:
 spring:
   profiles:
     active: dev
-  redis:
-    database: 0
-    host: 47.95.3.32
-    port: 6379
-    password: passw0rd
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
   freemarker:
@@ -16,13 +11,6 @@ spring:
     charset: UTF-8
   application:
     name: easy-code
-  datasource:
-    url: jdbc:mysql://localhost:3306/easy_code?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: passw0rd
-  data:
-    mongodb:
-      uri: mongodb://127.0.0.1:27017/admin
 
 
 # mybatis-plus
