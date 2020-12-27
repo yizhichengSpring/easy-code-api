@@ -1,0 +1,60 @@
+server:
+  port: 8181
+spring:
+  profiles:
+    active: dev
+  redis:
+    database: 0
+    host: 47.95.3.32
+    port: 6379
+    password: passw0rd
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
+    charset: UTF-8
+  application:
+    name: easy-code
+  datasource:
+    url: jdbc:mysql://localhost:3306/easy_code?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: passw0rd
+  data:
+    mongodb:
+      uri: mongodb://127.0.0.1:27017/admin
+
+
+# mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+  configuration:
+    auto-mapping-behavior: partial
+    map-underscore-to-camel-case: true
+
+# jwt 秘钥
+jwt:
+  secret: easycodepassw0rd.
+  expireTime: 86400000 # 24 hour | 毫秒
+  headerKeyPrefix: Authorization
+  headlerValuePrefix: Bearer
+
+
+#白名单 给拦截器使用(登录、注册接口、接口文档、druid等)
+ignore:
+  urls:
+    - /user/login
+    - /user/register
+    - /doc.html
+    - /swagger-ui.html
+    - /swagger-resources/**
+    - /swagger/**
+    - /v2/api-docs
+    - /webjars/**
+    - /favicon.ico
+    - /actuator/**
+    - /druid/**
+

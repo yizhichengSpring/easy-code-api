@@ -1,0 +1,13 @@
+Spring Boot Version: ${spring-boot.version}
+项目名称: ${spring.application.name}
+项目端口号: ${server.port}
+接口文档: http://localhost:${server.port}/doc.html
+ __     _______            _____ _____
+ \ \   / /_   _|     /\   |  __ \_   _|
+  \ \_/ /  | |      /  \  | |__) || |
+   \   /   | |     / /\ \ |  ___/ | |
+    | |   _| |_   / ____ \| |    _| |_
+    |_|  |_____| /_/    \_\_|   |_____|
+
+
+
