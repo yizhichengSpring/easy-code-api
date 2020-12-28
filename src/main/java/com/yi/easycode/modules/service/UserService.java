@@ -1,5 +1,6 @@
 package com.yi.easycode.modules.service;
 
+import com.github.pagehelper.PageInfo;
 import com.yi.easycode.modules.dto.UserDTO;
 import com.yi.easycode.modules.entity.UserEntity;
 
@@ -31,4 +32,13 @@ public interface UserService {
      * @return
      */
     Boolean loginOut(String token);
+
+    /**
+     * 获取用户信息
+     * @param userName
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo<UserEntity> getUserList(String userName,Integer pageNum,Integer pageSize);
 }

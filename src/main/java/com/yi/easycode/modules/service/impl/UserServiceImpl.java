@@ -1,10 +1,14 @@
 package com.yi.easycode.modules.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.component.EasyCodeRedisTemplate;
+import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.exception.ApiException;
 import com.yi.easycode.modules.dto.UserDTO;
 import com.yi.easycode.modules.entity.UserEntity;
@@ -101,5 +105,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             throw new ApiException("此用户已存在，请修改用户名或密码");
         }
         return true;
+    }
+
+    @Override
+    public PageInfo<UserEntity> getUserList(String userName, Integer pageNum, Integer pageSize) {
+        QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("del_flag", DeleteEnums.NORMAL.getCode());
+        if (StrUtil.isNotBlank(userName)) {
+            wrapper.eq("user_name",userName);
+        }
+        PageHelper.startPage(pageNum,pageSize);
+        List<UserEntity> userEntities = baseMapper.selectList(wrapper);
+        return new PageInfo<>(userEntities);
     }
 }
