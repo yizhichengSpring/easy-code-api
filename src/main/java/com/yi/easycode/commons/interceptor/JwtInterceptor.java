@@ -26,8 +26,8 @@ public class JwtInterceptor implements HandlerInterceptor {
     private JwtUtil jwtUtil;
     @Value("${jwt.headerKeyPrefix}")
     private String bearer;
-    @Value("${jwt.headlerValuePrefix}")
-    private String headlerValuePrefix;
+    @Value("${jwt.headerValuePrefix}")
+    private String headerValuePrefix;
     @Value("${spring.profiles.active}")
     private String active;
 
@@ -51,13 +51,13 @@ public class JwtInterceptor implements HandlerInterceptor {
         /**
          * step2 验证是否携带bearer
          */
-        if (!token.contains(headlerValuePrefix)) {
+        if (!token.contains(headerValuePrefix)) {
             throw new ApiException("token信息不完整");
         }
         /**
          * step3 验证token是否失效
          */
-        String jwtToken = token.substring(headlerValuePrefix.length());
+        String jwtToken = token.substring(headerValuePrefix.length());
         log.info("substring token {}",jwtToken);
         if (!jwtUtil.isExpire(jwtToken)) {
             throw new ApiException("token已失效，请重新登录");

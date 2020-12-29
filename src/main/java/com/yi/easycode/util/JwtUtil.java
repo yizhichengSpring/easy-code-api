@@ -29,8 +29,8 @@ public class JwtUtil {
     private Long expireTime;
     @Value("${jwt.headerKeyPrefix}")
     private String headerKeyPrefix;
-    @Value("${jwt.headlerValuePrefix}")
-    private String headlerValuePrefix;
+    @Value("${jwt.headerValuePrefix}")
+    private String headerValuePrefix;
 
     /**
      * 生成token

@@ -28,7 +28,7 @@ jwt:
   secret: easycodepassw0rd.
   expireTime: 86400000 # 24 hour | 毫秒
   headerKeyPrefix: Authorization
-  headlerValuePrefix: Bearer
+  headerValuePrefix: Bearer
 
 
 #白名单 给拦截器使用(登录、注册接口、接口文档、druid等)
