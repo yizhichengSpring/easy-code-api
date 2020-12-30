@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  **/
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@PropertySource(value = "classpath:/mysql-generator.properties")
+
 public class DBInfoTest {
 
     @Autowired
@@ -27,8 +27,8 @@ public class DBInfoTest {
     @Test
     public void save() {
         DBInfo dbInfo = new DBInfo();
-        dbInfo.setUserId(3L);
-        dbInfo.setConnectionName("连接1");
+        dbInfo.setUserId(4L);
+        dbInfo.setConnectionName("连接3");
         dbInfo.setType("MYSQL");
         dbInfo.setUrl("127.0.0.1");
         dbInfo.setPort("3306");

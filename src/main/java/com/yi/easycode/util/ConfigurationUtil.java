@@ -17,7 +17,7 @@ import java.util.Map;
  * @Date 2020/12/20 3:49 下午
  **/
 @Component
-@PropertySource(value = "mysql-generator.properties")
+@PropertySource(value = "classpath:mysql-generator.properties")
 @Data
 @Slf4j
 public class ConfigurationUtil {
