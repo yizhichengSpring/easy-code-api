@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ApiException.class)
     public Result handleApiException(ApiException e) {
         log.error("ApiException 错误信息为,{}",e.getMessage());
-        return Result.fail(e.getMessage());
+        return Result.fail(e.getCode(),e.getMessage());
     }
 
     @ExceptionHandler(value = Exception.class)

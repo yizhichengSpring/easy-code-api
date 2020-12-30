@@ -38,13 +38,13 @@ public class RoleEntity implements Serializable {
     private String roleDescribe;
 
     @ApiModelProperty(value = "创建时间")
-    private Date createTime;
+    private String createTime;
 
     @ApiModelProperty(value = "修改时间")
-    private Date updateTime;
+    private String updateTime;
 
     @ApiModelProperty(value = "是否删除 0:未删除/1:删除")
-    private Boolean delFlag;
+    private Integer delFlag;
 
 
 }

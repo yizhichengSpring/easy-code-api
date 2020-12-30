@@ -50,13 +50,13 @@ public class MenuEntity implements Serializable {
     private String menuDescribe;
 
     @ApiModelProperty(value = "是否删除 0:未删除/1:删除")
-    private Boolean delFlag;
+    private Integer delFlag;
 
     @ApiModelProperty(value = "创建时间")
-    private Date createTime;
+    private String createTime;
 
     @ApiModelProperty(value = "修改时间")
-    private Date updateTime;
+    private String updateTime;
 
 
 }
