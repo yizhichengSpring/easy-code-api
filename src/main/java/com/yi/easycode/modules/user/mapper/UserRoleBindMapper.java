@@ -13,4 +13,5 @@ import com.yi.easycode.modules.user.entity.UserRoleBindEntity;
  */
 public interface UserRoleBindMapper extends BaseMapper<UserRoleBindEntity> {
 
+    void deleteByUserId(Long userId);
 }

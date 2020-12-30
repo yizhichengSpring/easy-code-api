@@ -10,16 +10,21 @@ import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.component.EasyCodeRedisTemplate;
 import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.exception.ApiException;
+import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.commons.util.JwtUtil;
+import com.yi.easycode.modules.user.dto.BindUserRoleDTO;
 import com.yi.easycode.modules.user.dto.UserDTO;
 import com.yi.easycode.modules.user.entity.UserEntity;
+import com.yi.easycode.modules.user.entity.UserRoleBindEntity;
 import com.yi.easycode.modules.user.mapper.UserMapper;
+import com.yi.easycode.modules.user.mapper.UserRoleBindMapper;
 import com.yi.easycode.modules.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,6 +47,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     private Long expireTime;
     @Value("${login.salt}")
     private String salt;
+    @Autowired
+    private UserRoleBindMapper bindMapper;
 
     @Override
     public UserEntity register(UserDTO userDTO) {
@@ -120,5 +127,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         PageHelper.startPage(pageNum,pageSize);
         List<UserEntity> userEntities = baseMapper.selectList(wrapper);
         return new PageInfo<>(userEntities);
+    }
+
+    @Transactional
+    @Override
+    public Result bindUserRoles(BindUserRoleDTO dto) {
+        Long userId = dto.getUserId();
+        UserEntity entity = baseMapper.selectById(userId);
+        if (null == entity) {
+            throw new ApiException("用户不存在");
+        }
+        //删除之前该用户的所有角色
+        bindMapper.deleteByUserId(userId);
+        //保存新角色权限
+        for (Long roleId : dto.getRoleIds()) {
+            UserRoleBindEntity bindEntity = new UserRoleBindEntity();
+            bindEntity.setUserId(userId);
+            bindEntity.setRoleId(roleId);
+            bindMapper.insert(bindEntity);
+        }
+        return Result.success();
     }
 }

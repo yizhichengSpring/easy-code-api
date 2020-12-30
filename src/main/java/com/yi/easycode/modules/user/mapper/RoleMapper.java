@@ -2,6 +2,9 @@ package com.yi.easycode.modules.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yi.easycode.modules.user.entity.RoleEntity;
+import com.yi.easycode.modules.user.vo.RoleVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.yi.easycode.modules.user.entity.RoleEntity;
  */
 public interface RoleMapper extends BaseMapper<RoleEntity> {
 
+    List<RoleVO> getRoleCode();
 }

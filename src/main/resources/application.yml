@@ -50,3 +50,8 @@ ignore:
     - /actuator/**
     - /druid/**
 
+# 日志
+logging:
+  level:
+    com.chz.mapper: debug
+    com.yi.easycode: debug

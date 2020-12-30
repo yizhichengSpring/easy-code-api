@@ -1,6 +1,8 @@
 package com.yi.easycode.modules.user.service;
 
 import com.github.pagehelper.PageInfo;
+import com.yi.easycode.commons.result.Result;
+import com.yi.easycode.modules.user.dto.BindUserRoleDTO;
 import com.yi.easycode.modules.user.dto.UserDTO;
 import com.yi.easycode.modules.user.entity.UserEntity;
 
@@ -41,4 +43,11 @@ public interface UserService {
      * @return
      */
     PageInfo<UserEntity> getUserList(String userName, Integer pageNum, Integer pageSize);
+
+    /**
+     * 用户绑定角色信息
+     * @param dto
+     * @return
+     */
+    Result bindUserRoles(BindUserRoleDTO dto);
 }

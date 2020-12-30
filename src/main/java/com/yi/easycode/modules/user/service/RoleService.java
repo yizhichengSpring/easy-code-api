@@ -41,4 +41,10 @@ public interface RoleService extends IService<RoleEntity> {
      * @return
      */
     Result deleteRoleEntity(Long id);
+
+    /**
+     * 获取角色码值信息
+     * @return
+     */
+    Result getRoleCode();
 }

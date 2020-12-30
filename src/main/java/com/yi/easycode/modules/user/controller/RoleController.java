@@ -52,4 +52,10 @@ public class RoleController {
     public Result deleteRole(@PathVariable("id") Long id) {
         return roleService.deleteRoleEntity(id);
     }
+    
+    @ApiOperation("角色码值")
+    @PostMapping("/getRoleCode")
+    public Result getRoleCode() {
+        return roleService.getRoleCode();
+    }
 }

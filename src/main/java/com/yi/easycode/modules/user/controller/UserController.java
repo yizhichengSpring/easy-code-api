@@ -3,6 +3,7 @@ package com.yi.easycode.modules.user.controller;
 import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
+import com.yi.easycode.modules.user.dto.BindUserRoleDTO;
 import com.yi.easycode.modules.user.dto.UserDTO;
 import com.yi.easycode.modules.user.entity.UserEntity;
 import com.yi.easycode.modules.user.service.UserService;
@@ -55,5 +56,12 @@ public class UserController {
                               @RequestParam("pageSize") Integer pageSize) {
         PageInfo<UserEntity> pageInfo = userService.getUserList(userName,pageNum,pageSize);
         return Result.success(PageResult.convert(pageInfo));
+    }
+    
+    @ApiOperation("用户绑定角色信息")
+    @PostMapping("/bindUserRoles")
+    public Result bindUserRoles(@RequestBody @Valid BindUserRoleDTO dto) {
+        userService.bindUserRoles(dto);
+        return Result.success();
     }
 }
