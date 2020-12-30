@@ -2,7 +2,8 @@ package com.yi.easycode.commons.interceptor;
 
 import cn.hutool.core.util.StrUtil;
 import com.yi.easycode.commons.exception.ApiException;
-import com.yi.easycode.util.JwtUtil;
+import com.yi.easycode.commons.http.HttpStatusCodeEnums;
+import com.yi.easycode.commons.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,13 +47,17 @@ public class JwtInterceptor implements HandlerInterceptor {
          * step1 验证token是否携带
          */
         if (StrUtil.isBlank(token)) {
-            throw new ApiException("token不存在");
+            throw new ApiException(
+                    HttpStatusCodeEnums.HTTP_UNAUTHORIZED.getCode(),
+                    HttpStatusCodeEnums.HTTP_UNAUTHORIZED.getMsg());
         }
         /**
          * step2 验证是否携带bearer
          */
         if (!token.contains(headerValuePrefix)) {
-            throw new ApiException("token信息不完整");
+            throw new ApiException(
+                    HttpStatusCodeEnums.HTTP_UNAUTHORIZED.getCode(),
+                    HttpStatusCodeEnums.HTTP_UNAUTHORIZED.getMsg());
         }
         /**
          * step3 验证token是否失效

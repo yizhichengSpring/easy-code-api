@@ -30,6 +30,9 @@ jwt:
   headerKeyPrefix: Authorization
   headerValuePrefix: Bearer
 
+# 密码 盐
+login:
+  salt: passw0rd
 
 #白名单 给拦截器使用(登录、注册接口、接口文档、druid等)
 ignore:

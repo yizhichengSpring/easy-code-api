@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 @MapperScan({
-        "com.yi.easycode.modules.mapper",
+        "com.yi.easycode.modules.*.mapper",
 })
 public class MyBatisConfig {
     @Bean

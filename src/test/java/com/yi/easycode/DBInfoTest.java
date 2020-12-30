@@ -1,11 +1,10 @@
 package com.yi.easycode;
 
-import com.yi.easycode.modules.entity.mongodb.DBInfo;
+import com.yi.easycode.modules.generate.entity.mongodb.DBInfoMongo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -26,7 +25,7 @@ public class DBInfoTest {
 
     @Test
     public void save() {
-        DBInfo dbInfo = new DBInfo();
+        DBInfoMongo dbInfo = new DBInfoMongo();
         dbInfo.setUserId(4L);
         dbInfo.setConnectionName("连接3");
         dbInfo.setType("MYSQL");

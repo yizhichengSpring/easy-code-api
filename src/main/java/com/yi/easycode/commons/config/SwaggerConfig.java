@@ -31,7 +31,6 @@ public class SwaggerConfig {
     public Docket groupRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(basicInfo())
-                //.groupName("erp基础信息模块")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.yi.easycode.modules"))
                 .paths(PathSelectors.any())
