@@ -13,4 +13,5 @@ import com.yi.easycode.modules.user.entity.UserEntity;
  */
 public interface UserMapper extends BaseMapper<UserEntity> {
 
+    UserEntity getUserInfoByName(String name);
 }

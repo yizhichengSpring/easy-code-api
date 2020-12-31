@@ -2,4 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yi.easycode.modules.user.mapper.UserMapper">
 
+    <select id="getUserInfoByName" resultType="com.yi.easycode.modules.user.entity.UserEntity">
+        SELECT * FROM t_user WHERE user_name = #{userName}
+    </select>
 </mapper>

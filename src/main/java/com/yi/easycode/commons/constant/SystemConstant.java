@@ -17,4 +17,9 @@ public class SystemConstant {
      */
     public static final String DEFAULT_GLOBAL_TOKEN = "easycode";
 
+    /**
+     * parentId 菜单 默认顶级id
+     */
+    public static final String ROOT_PARENTID = "0";
+
 }

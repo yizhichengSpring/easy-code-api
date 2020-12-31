@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -28,6 +29,7 @@ import javax.validation.Valid;
 public class UserController {
     @Autowired
     private UserService userService;
+
 
     @ApiOperation("登录")
     @PostMapping(value = "login")
@@ -63,5 +65,11 @@ public class UserController {
     public Result bindUserRoles(@RequestBody @Valid BindUserRoleDTO dto) {
         userService.bindUserRoles(dto);
         return Result.success();
+    }
+
+    @ApiOperation("用户绑定角色信息")
+    @PostMapping("/info")
+    public Result getInfo(HttpServletRequest request) {
+        return userService.getInfo(request);
     }
 }

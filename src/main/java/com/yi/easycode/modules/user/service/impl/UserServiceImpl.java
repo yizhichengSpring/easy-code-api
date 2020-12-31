@@ -14,8 +14,12 @@ import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.commons.util.JwtUtil;
 import com.yi.easycode.modules.user.dto.BindUserRoleDTO;
 import com.yi.easycode.modules.user.dto.UserDTO;
+import com.yi.easycode.modules.user.entity.MenuEntity;
+import com.yi.easycode.modules.user.entity.RoleEntity;
 import com.yi.easycode.modules.user.entity.UserEntity;
 import com.yi.easycode.modules.user.entity.UserRoleBindEntity;
+import com.yi.easycode.modules.user.mapper.MenuMapper;
+import com.yi.easycode.modules.user.mapper.RoleMapper;
 import com.yi.easycode.modules.user.mapper.UserMapper;
 import com.yi.easycode.modules.user.mapper.UserRoleBindMapper;
 import com.yi.easycode.modules.user.service.UserService;
@@ -26,7 +30,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.yi.easycode.modules.constant.RedisConstant.TOKEN_REDIS_KEY;
 
@@ -47,8 +55,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     private Long expireTime;
     @Value("${login.salt}")
     private String salt;
+    @Value("${jwt.headerKeyPrefix}")
+    private String bearer;
+    @Value("${jwt.headerValuePrefix}")
+    private String headerValuePrefix;
     @Autowired
     private UserRoleBindMapper bindMapper;
+    @Autowired
+    private RoleMapper roleMapper;
+    @Autowired
+    private MenuMapper menuMapper;
+
 
     @Override
     public UserEntity register(UserDTO userDTO) {
@@ -147,5 +164,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             bindMapper.insert(bindEntity);
         }
         return Result.success();
+    }
+
+    @Override
+    public Result getInfo(HttpServletRequest request) {
+        String token = request.getHeader(bearer);
+        String jwtToken = token.substring(headerValuePrefix.length());
+        String useName = jwtUtil.getUserName(jwtToken);
+        //获取用户信息
+        UserEntity userEntity = baseMapper.getUserInfoByName(useName);
+        if (null == userEntity) {
+            throw new ApiException("用户不存在");
+        }
+        //获取角色信息
+        List<RoleEntity> roleList = roleMapper.getRoleByUserId(userEntity.getUserId());
+        List<Long> roleIds =
+                roleList
+                        .stream()
+                        .map(RoleEntity::getId)
+                        .collect(Collectors.toList());
+        //获取菜单信息
+        List<MenuEntity> menuEntities = menuMapper.getMenusByRoleId(roleIds);
+        Map<String, Object> data = new HashMap<>();
+        data.put("userName",userEntity.getUserName());
+        List<String> roleNames =
+                roleList
+                        .stream()
+                        .map(RoleEntity::getRoleName)
+                        .collect(Collectors.toList());
+        data.put("roles",roleNames);
+        data.put("menus",menuEntities);
+        data.put("avatar","http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg.jpg");
+        return Result.success(data);
     }
 }

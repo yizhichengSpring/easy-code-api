@@ -24,4 +24,18 @@
     <select id="getMenuCodes" resultType="com.yi.easycode.modules.user.vo.SelectVO">
         select id as selectCode,menu_name as selectValue from t_menu
     </select>
+    
+    <select id="getMenusByRoleId" resultType="com.yi.easycode.modules.user.entity.MenuEntity">
+        select
+            m.*
+        from
+            t_menu m
+                left join t_role_menu_bind rmb on m.id = rmb.menu_id
+        where
+            rmb.role_id in
+            <foreach item="roleId" collection="roleIds" separator="," open="(" close=")" index="">
+                       #{roleId, jdbcType=NUMERIC}
+            </foreach>
+          and m.del_flag = 0;
+    </select>
 </mapper>

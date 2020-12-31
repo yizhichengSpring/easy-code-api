@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.yi.easycode.commons.constant.SystemConstant.*;
+
 /**
  * <p>
  * 菜单表 服务实现类
@@ -90,7 +92,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
             treeNode.setExtra(columns);
             nodeList.add(treeNode);
         });
-        List<Tree<String>> treeList = TreeUtil.build(nodeList, "0");
+        List<Tree<String>> treeList = TreeUtil.build(nodeList, ROOT_PARENTID);
         return Result.success(treeList);
     }
 

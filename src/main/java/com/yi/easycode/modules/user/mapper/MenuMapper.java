@@ -3,6 +3,7 @@ package com.yi.easycode.modules.user.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yi.easycode.modules.user.entity.MenuEntity;
 import com.yi.easycode.modules.user.vo.SelectVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface MenuMapper extends BaseMapper<MenuEntity> {
     List<MenuEntity> getMenuList();
 
     List<SelectVO> getMenuCodes();
+
+    List<MenuEntity> getMenusByRoleId(@Param("roleIds") List<Long> roleIds);
 }

@@ -4,7 +4,6 @@ import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.user.dto.BindRoleMenuDTO;
-import com.yi.easycode.modules.user.dto.BindUserRoleDTO;
 import com.yi.easycode.modules.user.dto.RoleDTO;
 import com.yi.easycode.modules.user.entity.RoleEntity;
 import com.yi.easycode.modules.user.service.RoleService;

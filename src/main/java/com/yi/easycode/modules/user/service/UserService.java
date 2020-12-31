@@ -6,6 +6,8 @@ import com.yi.easycode.modules.user.dto.BindUserRoleDTO;
 import com.yi.easycode.modules.user.dto.UserDTO;
 import com.yi.easycode.modules.user.entity.UserEntity;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author yizhicheng
  * @ClassName UserService
@@ -50,4 +52,10 @@ public interface UserService {
      * @return
      */
     Result bindUserRoles(BindUserRoleDTO dto);
+
+    /**
+     * 用户信息
+     * @param request
+     */
+    Result getInfo(HttpServletRequest request);
 }
