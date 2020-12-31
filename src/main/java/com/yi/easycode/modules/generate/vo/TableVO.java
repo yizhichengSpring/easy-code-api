@@ -17,6 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TableVO implements Serializable {
+    private static final long serialVersionUID = -5177322758046302055L;
     /**
      * 表名
      */

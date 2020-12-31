@@ -13,4 +13,5 @@ import com.yi.easycode.modules.user.entity.RoleMenuBindEntity;
  */
 public interface RoleMenuBindMapper extends BaseMapper<RoleMenuBindEntity> {
 
+    void deleteByRoleId(Long roleId);
 }

@@ -10,18 +10,18 @@ public enum  DeleteEnums {
     /**
      * 逻辑删除:0 正常
      */
-    NORMAL(0L,"正常"),
+    NORMAL(0,"正常"),
     /**
      * 逻辑删除:1 删除
      */
-    DEL(1L,"删除");
+    DEL(1,"删除");
 
-    private Long code;
+    private Integer code;
 
     private String value;
 
 
-    public Long getCode() {
+    public Integer getCode() {
         return code;
     }
 
@@ -29,7 +29,7 @@ public enum  DeleteEnums {
         return value;
     }
 
-    DeleteEnums(Long code, String value) {
+    DeleteEnums(Integer code, String value) {
         this.code = code;
         this.value = value;
     }

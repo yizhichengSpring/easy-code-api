@@ -6,14 +6,20 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.enums.DeleteEnums;
+import com.yi.easycode.commons.exception.ApiException;
 import com.yi.easycode.commons.result.Result;
+import com.yi.easycode.modules.user.dto.BindRoleMenuDTO;
 import com.yi.easycode.modules.user.dto.RoleDTO;
 import com.yi.easycode.modules.user.entity.RoleEntity;
+import com.yi.easycode.modules.user.entity.RoleMenuBindEntity;
 import com.yi.easycode.modules.user.mapper.RoleMapper;
+import com.yi.easycode.modules.user.mapper.RoleMenuBindMapper;
 import com.yi.easycode.modules.user.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +34,9 @@ import java.util.List;
 @Service
 @Slf4j
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> implements RoleService {
+
+    @Autowired
+    private RoleMenuBindMapper bindMapper;
 
     @Override
     public PageInfo<RoleEntity> getRoleList(String username, Integer pageNum, Integer pageSize) {
@@ -74,5 +83,25 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     @Override
     public Result getRoleCode() {
         return Result.success(baseMapper.getRoleCode());
+    }
+
+    @Transactional
+    @Override
+    public Result bindRoleMenus(BindRoleMenuDTO dto) {
+        Long roleId = dto.getRoleId();
+        RoleEntity entity = baseMapper.selectById(roleId);
+        if (null == entity) {
+            throw new ApiException("角色不存在");
+        }
+        //删除之前该角色的所有菜单
+        bindMapper.deleteByRoleId(roleId);
+        //保存新角色-菜单权限
+        for (Long menuId : dto.getMenuIds()) {
+            RoleMenuBindEntity bindEntity = new RoleMenuBindEntity();
+            bindEntity.setRoleId(roleId);
+            bindEntity.setMenuId(menuId);
+            bindMapper.insert(bindEntity);
+        }
+        return Result.success();
     }
 }

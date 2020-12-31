@@ -3,6 +3,8 @@ package com.yi.easycode.modules.user.controller;
 import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
+import com.yi.easycode.modules.user.dto.BindRoleMenuDTO;
+import com.yi.easycode.modules.user.dto.BindUserRoleDTO;
 import com.yi.easycode.modules.user.dto.RoleDTO;
 import com.yi.easycode.modules.user.entity.RoleEntity;
 import com.yi.easycode.modules.user.service.RoleService;
@@ -11,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author yizhicheng
@@ -57,5 +61,11 @@ public class RoleController {
     @PostMapping("/getRoleCode")
     public Result getRoleCode() {
         return roleService.getRoleCode();
+    }
+    
+    @ApiOperation("角色绑定菜单信息")
+    @PostMapping("/bindRoleMenus")
+    public Result bindRoleMenus(@RequestBody @Valid BindRoleMenuDTO dto) {
+        return roleService.bindRoleMenus(dto);
     }
 }

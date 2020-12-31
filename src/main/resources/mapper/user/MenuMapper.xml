@@ -17,4 +17,11 @@
         <result column="update_time" property="updateTime" />
     </resultMap>
 
+    <select id="getMenuList" resultType="com.yi.easycode.modules.user.entity.MenuEntity">
+        SELECT * FROM t_menu where del_flag = 0
+    </select>
+    
+    <select id="getMenuCodes" resultType="com.yi.easycode.modules.user.vo.SelectVO">
+        select id as selectCode,menu_name as selectValue from t_menu
+    </select>
 </mapper>

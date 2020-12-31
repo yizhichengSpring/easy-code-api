@@ -11,4 +11,7 @@
         <result column="update_time" property="updateTime" />
     </resultMap>
 
+    <delete id="deleteByRoleId" >
+        DELETE FROM t_role_menu_bind WHERE role_id = #{roleId}
+    </delete>
 </mapper>

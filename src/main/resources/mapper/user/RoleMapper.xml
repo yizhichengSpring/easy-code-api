@@ -12,7 +12,7 @@
         <result column="del_flag" property="delFlag" />
     </resultMap>
 
-    <select id="getRoleCode" resultType="com.yi.easycode.modules.user.vo.RoleVO">
+    <select id="getRoleCode" resultType="com.yi.easycode.modules.user.vo.SelectVO">
         select id as selectCode,role_name as selectValue from t_role where del_flag = 0
     </select>
 </mapper>

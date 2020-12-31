@@ -2,6 +2,9 @@ package com.yi.easycode.modules.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yi.easycode.modules.user.entity.MenuEntity;
+import com.yi.easycode.modules.user.vo.SelectVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,7 @@ import com.yi.easycode.modules.user.entity.MenuEntity;
  */
 public interface MenuMapper extends BaseMapper<MenuEntity> {
 
+    List<MenuEntity> getMenuList();
+
+    List<SelectVO> getMenuCodes();
 }

@@ -3,6 +3,7 @@ package com.yi.easycode.modules.user.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.result.Result;
+import com.yi.easycode.modules.user.dto.BindRoleMenuDTO;
 import com.yi.easycode.modules.user.dto.RoleDTO;
 import com.yi.easycode.modules.user.entity.RoleEntity;
 
@@ -47,4 +48,11 @@ public interface RoleService extends IService<RoleEntity> {
      * @return
      */
     Result getRoleCode();
+
+    /**
+     * 角色绑定菜单信息
+     * @param dto
+     * @return
+     */
+    Result bindRoleMenus(BindRoleMenuDTO dto);
 }
