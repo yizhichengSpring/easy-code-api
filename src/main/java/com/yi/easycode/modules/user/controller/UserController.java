@@ -19,7 +19,7 @@ import javax.validation.Valid;
 /**
  * @author yizhicheng
  * @ClassName LoginController
- * @Description 登录
+ * @Description 用户模块
  * @Date 2020/12/20 20:09 下午
  **/
 @RestController
@@ -67,7 +67,7 @@ public class UserController {
         return Result.success();
     }
 
-    @ApiOperation("用户绑定角色信息")
+    @ApiOperation("查询用户信息")
     @PostMapping("/info")
     public Result getInfo(HttpServletRequest request) {
         return userService.getInfo(request);

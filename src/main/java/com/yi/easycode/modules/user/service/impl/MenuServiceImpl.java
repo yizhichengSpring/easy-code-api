@@ -1,13 +1,11 @@
 package com.yi.easycode.modules.user.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
-import cn.hutool.core.lang.tree.TreeNode;
-import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.exception.ApiException;
 import com.yi.easycode.commons.result.Result;
+import com.yi.easycode.commons.util.MenuUtil;
 import com.yi.easycode.modules.user.dto.MenuDTO;
 import com.yi.easycode.modules.user.entity.MenuEntity;
 import com.yi.easycode.modules.user.mapper.MenuMapper;
@@ -17,11 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static com.yi.easycode.commons.constant.SystemConstant.*;
 
 /**
  * <p>
@@ -77,22 +71,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
     @Override
     public Result treeMenu() {
         List<MenuEntity> menuEntities = baseMapper.getMenuList();
-        List<TreeNode<String>> nodeList = CollUtil.newArrayList();
-        menuEntities.stream().forEach(x ->{
-            TreeNode treeNode = new TreeNode();
-            treeNode.setId(String.valueOf(x.getId()));
-            treeNode.setParentId(String.valueOf(x.getMenuParentId()));
-            treeNode.setName(x.getMenuName());
-            treeNode.setWeight(x.getMenuSort());
-            Map<String, Object> columns = new HashMap<>(16);
-            columns.put("menuLevel",x.getMenuLevel());
-            columns.put("menuUrl",x.getMenuUrl());
-            columns.put("menuIcon",x.getMenuIcon());
-            columns.put("menuDescribe",x.getMenuDescribe());
-            treeNode.setExtra(columns);
-            nodeList.add(treeNode);
-        });
-        List<Tree<String>> treeList = TreeUtil.build(nodeList, ROOT_PARENTID);
+        List<Tree<String>> treeList = MenuUtil.getTreeMenus(menuEntities);
         return Result.success(treeList);
     }
 

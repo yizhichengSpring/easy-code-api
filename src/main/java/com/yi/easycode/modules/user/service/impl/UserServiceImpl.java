@@ -1,6 +1,7 @@
 package com.yi.easycode.modules.user.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -12,6 +13,7 @@ import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.exception.ApiException;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.commons.util.JwtUtil;
+import com.yi.easycode.commons.util.MenuUtil;
 import com.yi.easycode.modules.user.dto.BindUserRoleDTO;
 import com.yi.easycode.modules.user.dto.UserDTO;
 import com.yi.easycode.modules.user.entity.MenuEntity;
@@ -185,7 +187,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
                         .collect(Collectors.toList());
         //获取菜单信息
         List<MenuEntity> menuEntities = menuMapper.getMenusByRoleId(roleIds);
-        Map<String, Object> data = new HashMap<>();
+        List<Tree<String>> treeList = MenuUtil.getTreeMenus(menuEntities);
+        Map<String, Object> data = new HashMap<>(16);
         data.put("userName",userEntity.getUserName());
         List<String> roleNames =
                 roleList
@@ -193,7 +196,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
                         .map(RoleEntity::getRoleName)
                         .collect(Collectors.toList());
         data.put("roles",roleNames);
-        data.put("menus",menuEntities);
+        data.put("menus",treeList);
         data.put("avatar","http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg.jpg");
         return Result.success(data);
     }
