@@ -5,4 +5,8 @@
     <select id="getUserInfoByName" resultType="com.yi.easycode.modules.user.entity.UserEntity">
         SELECT * FROM t_user WHERE user_name = #{userName}
     </select>
+    
+    <select id="getUserInfo" resultType="com.yi.easycode.modules.user.vo.UserVO">
+        SELECT * FROM t_user WHERE user_id = #{userId}
+    </select>
 </mapper>

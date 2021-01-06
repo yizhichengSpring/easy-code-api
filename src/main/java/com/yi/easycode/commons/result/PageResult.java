@@ -24,7 +24,7 @@ public class PageResult<T> implements Serializable {
     private Integer pageNum;
     private Integer pageSize;
     private Integer size;
-    private List<T> data;
+    private List<T> list;
     private Long total;
 
 
@@ -34,7 +34,7 @@ public class PageResult<T> implements Serializable {
         pageResult.setPageSize(pageInfo.getPageSize());
         pageResult.setSize(pageInfo.getSize());
         pageResult.setTotal(pageInfo.getTotal());
-        pageResult.setData(pageInfo.getList());
+        pageResult.setList(pageInfo.getList());
         return pageResult;
     }
 }

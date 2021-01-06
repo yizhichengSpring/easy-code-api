@@ -2,6 +2,7 @@ package com.yi.easycode.modules.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yi.easycode.modules.user.entity.UserEntity;
+import com.yi.easycode.modules.user.vo.UserVO;
 
 /**
  * <p>
@@ -14,4 +15,6 @@ import com.yi.easycode.modules.user.entity.UserEntity;
 public interface UserMapper extends BaseMapper<UserEntity> {
 
     UserEntity getUserInfoByName(String name);
+
+    UserVO getUserInfo(Integer userId);
 }

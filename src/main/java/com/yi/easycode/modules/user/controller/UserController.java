@@ -7,6 +7,7 @@ import com.yi.easycode.modules.user.dto.BindUserRoleDTO;
 import com.yi.easycode.modules.user.dto.UserDTO;
 import com.yi.easycode.modules.user.entity.UserEntity;
 import com.yi.easycode.modules.user.service.UserService;
+import com.yi.easycode.modules.user.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -41,14 +42,14 @@ public class UserController {
     @ApiOperation("注册")
     @PostMapping(value = "register")
     public Result register(@RequestBody @Valid UserDTO userInfo) {
-        UserEntity userEntity = userService.register(userInfo);
-        return Result.success(userEntity);
+        UserVO userVO = userService.register(userInfo);
+        return Result.success(userVO);
     }
 
     @ApiOperation("注销")
     @PostMapping(value = "loginOut")
-    public Result loginOut(String token) {
-        return Result.success(userService.loginOut(token));
+    public Result loginOut(HttpServletRequest request) {
+        return Result.success(userService.loginOut(request));
     }
 
     @ApiOperation("获取所有用户")

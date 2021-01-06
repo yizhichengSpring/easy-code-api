@@ -25,6 +25,7 @@ import com.yi.easycode.modules.user.mapper.RoleMapper;
 import com.yi.easycode.modules.user.mapper.UserMapper;
 import com.yi.easycode.modules.user.mapper.UserRoleBindMapper;
 import com.yi.easycode.modules.user.service.UserService;
+import com.yi.easycode.modules.user.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
 
     @Override
-    public UserEntity register(UserDTO userDTO) {
+    public UserVO register(UserDTO userDTO) {
         checkUser(userDTO);
         UserEntity user = new UserEntity();
         BeanUtils.copyProperties(userDTO,user);
@@ -78,7 +79,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         String newPassword = pwd+salt;
         user.setPassword(SecureUtil.md5(newPassword));
         baseMapper.insert(user);
-        return user;
+        log.info("userId:{}",user.getUserId());
+        return baseMapper.getUserInfo(user.getUserId().intValue());
     }
 
     @Override
@@ -107,14 +109,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
 
     @Override
-    public Boolean loginOut(String token) {
-        String userName = jwtUtil.getUserName(token);
-        QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_name",userName);
-        UserEntity userEntity = baseMapper.selectOne(wrapper);
-        if (null == userEntity) {
-            throw new ApiException("非法token");
-        }
+    public Boolean loginOut(HttpServletRequest request) {
+        UserEntity userEntity = getUserInfo(request);
         redisTemplate.del(TOKEN_REDIS_KEY+userEntity.getUserId());
         return true;
     }
@@ -143,6 +139,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         if (StrUtil.isNotBlank(userName)) {
             wrapper.eq("user_name",userName);
         }
+        wrapper.orderByDesc("user_id");
         PageHelper.startPage(pageNum,pageSize);
         List<UserEntity> userEntities = baseMapper.selectList(wrapper);
         return new PageInfo<>(userEntities);
@@ -170,14 +167,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
     @Override
     public Result getInfo(HttpServletRequest request) {
-        String token = request.getHeader(bearer);
-        String jwtToken = token.substring(headerValuePrefix.length());
-        String useName = jwtUtil.getUserName(jwtToken);
-        //获取用户信息
-        UserEntity userEntity = baseMapper.getUserInfoByName(useName);
-        if (null == userEntity) {
-            throw new ApiException("用户不存在");
-        }
+        UserEntity userEntity = getUserInfo(request);
         //获取角色信息
         List<RoleEntity> roleList = roleMapper.getRoleByUserId(userEntity.getUserId());
         List<Long> roleIds =
@@ -199,5 +189,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         data.put("menus",treeList);
         data.put("avatar","http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg.jpg");
         return Result.success(data);
+    }
+    
+    
+    private UserEntity getUserInfo (HttpServletRequest request) {
+        String token = request.getHeader(bearer);
+        String jwtToken = token.substring(headerValuePrefix.length());
+        String useName = jwtUtil.getUserName(jwtToken);
+        //获取用户信息
+        UserEntity userEntity = baseMapper.getUserInfoByName(useName);
+        if (null == userEntity) {
+            throw new ApiException("用户不存在");
+        }
+        return userEntity;
     }
 }

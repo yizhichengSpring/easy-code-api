@@ -15,6 +15,8 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class UserDTO {
 
+    private Long userId;
+
     /**
      * 用户名
      */

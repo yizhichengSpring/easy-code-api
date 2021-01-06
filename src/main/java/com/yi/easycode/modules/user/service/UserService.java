@@ -5,6 +5,7 @@ import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.user.dto.BindUserRoleDTO;
 import com.yi.easycode.modules.user.dto.UserDTO;
 import com.yi.easycode.modules.user.entity.UserEntity;
+import com.yi.easycode.modules.user.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,7 +22,7 @@ public interface UserService {
      * @param userDTO
      * @return
      */
-    UserEntity register(UserDTO userDTO);
+    UserVO register(UserDTO userDTO);
 
     /**
      * 登录
@@ -32,10 +33,10 @@ public interface UserService {
 
     /**
      * 注销
-     * @param token
+     * @param
      * @return
      */
-    Boolean loginOut(String token);
+    Boolean loginOut(HttpServletRequest request);
 
     /**
      * 获取用户信息
