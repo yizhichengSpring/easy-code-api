@@ -43,8 +43,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         QueryWrapper<RoleEntity> wrapper = new QueryWrapper<>();
         wrapper.eq("del_flag", DeleteEnums.NORMAL.getCode());
         if (StrUtil.isNotBlank(username)) {
-            wrapper.eq("user_name",username);
+            wrapper.like("role_name",username);
         }
+        wrapper.orderByDesc("create_time");
         PageHelper.startPage(pageNum,pageSize);
         List<RoleEntity> roleEntities = baseMapper.selectList(wrapper);
         return new PageInfo<>(roleEntities);

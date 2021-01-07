@@ -31,7 +31,7 @@ public class RoleController {
 
     @ApiOperation("角色列表")
     @PostMapping(value = "list")
-    public Result list(@RequestParam(value = "userName",required = false) String userName,
+    public Result list(@RequestParam(value = "roleName",required = false) String userName,
                         @RequestParam("pageNum") Integer pageNum,
                         @RequestParam("pageSize") Integer pageSize) {
         PageInfo<RoleEntity> pageInfo = roleService.getRoleList(userName,pageNum,pageSize);
@@ -40,18 +40,18 @@ public class RoleController {
 
     @ApiOperation("新增角色")
     @PostMapping("/saveRole")
-    public Result saveRole(RoleDTO roleDTO) {
+    public Result saveRole(@RequestBody RoleDTO roleDTO) {
         return roleService.saveRoleEntity(roleDTO);
     }
 
     @ApiOperation("修改角色")
     @PostMapping("/updateRole")
-    public Result updateRole(RoleDTO roleDTO) {
+    public Result updateRole(@RequestBody RoleDTO roleDTO) {
         return roleService.updateRoleEntity(roleDTO);
     }
 
     @ApiOperation("删除角色")
-    @PostMapping("/deleteRole/{id}")
+    @GetMapping("/deleteRole/{id}")
     public Result deleteRole(@PathVariable("id") Long id) {
         return roleService.deleteRoleEntity(id);
     }
