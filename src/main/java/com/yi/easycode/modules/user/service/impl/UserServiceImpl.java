@@ -80,7 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         user.setPassword(SecureUtil.md5(newPassword));
         baseMapper.insert(user);
         log.info("userId:{}",user.getUserId());
-        return baseMapper.getUserInfo(user.getUserId().intValue());
+        return baseMapper.getUserInfo(user.getUserId());
     }
 
     @Override
@@ -137,7 +137,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
         wrapper.eq("del_flag", DeleteEnums.NORMAL.getCode());
         if (StrUtil.isNotBlank(userName)) {
-            wrapper.eq("user_name",userName);
+            wrapper.like("user_name",userName);
         }
         wrapper.orderByDesc("user_id");
         PageHelper.startPage(pageNum,pageSize);
@@ -202,5 +202,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             throw new ApiException("用户不存在");
         }
         return userEntity;
+    }
+
+
+    @Override
+    public UserEntity update(UserDTO userInfo) {
+        UserVO userVO = baseMapper.getUserInfo(userInfo.getUserId());
+        if (null == userVO) {
+            throw new ApiException("修改失败，用户不存在");
+        }
+        UserEntity entity = new UserEntity();
+        BeanUtils.copyProperties(userInfo,entity);
+        baseMapper.updateById(entity);
+        return entity;
+    }
+
+    @Override
+    public Boolean delete(Long userId) {
+        UserEntity entity = baseMapper.selectById(userId);
+        entity.setDelFlag(DeleteEnums.DEL.getCode());
+        baseMapper.updateById(entity);
+        return true;
     }
 }

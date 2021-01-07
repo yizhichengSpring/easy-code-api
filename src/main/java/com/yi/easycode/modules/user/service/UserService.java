@@ -59,4 +59,18 @@ public interface UserService {
      * @param request
      */
     Result getInfo(HttpServletRequest request);
+
+    /**
+     * 修改用户
+     * @param userInfo
+     * @return
+     */
+    UserEntity update(UserDTO userInfo);
+
+    /**
+     * 删除用户
+     * @param userId
+     * @return
+     */
+    Boolean delete(Long userId);
 }

@@ -46,6 +46,20 @@ public class UserController {
         return Result.success(userVO);
     }
 
+    @ApiOperation("修改")
+    @PostMapping(value = "update")
+    public Result update(@RequestBody @Valid UserDTO userInfo) {
+        UserEntity entity = userService.update(userInfo);
+        return Result.success(entity);
+    }
+
+    @ApiOperation("删除")
+    @GetMapping(value = "delete/{userId}")
+    public Result delete(@PathVariable Long userId) {
+        Boolean flag = userService.delete(userId);
+        return Result.success(flag);
+    }
+
     @ApiOperation("注销")
     @PostMapping(value = "loginOut")
     public Result loginOut(HttpServletRequest request) {

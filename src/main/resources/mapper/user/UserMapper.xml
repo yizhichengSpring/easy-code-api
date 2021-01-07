@@ -6,7 +6,7 @@
         SELECT * FROM t_user WHERE user_name = #{userName}
     </select>
     
-    <select id="getUserInfo" resultType="com.yi.easycode.modules.user.vo.UserVO">
+    <select id="getUserInfo" resultType="com.yi.easycode.modules.user.vo.UserVO" parameterType="java.lang.Long">
         SELECT * FROM t_user WHERE user_id = #{userId}
     </select>
 </mapper>

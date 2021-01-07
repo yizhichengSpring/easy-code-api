@@ -48,5 +48,7 @@ public class UserEntity implements Serializable {
     @ApiModelProperty(value = "修改时间")
     private String updateTime;
 
+    @ApiModelProperty(value = "是否删除 0:未删除/1:删除")
+    private Integer delFlag;
 
 }

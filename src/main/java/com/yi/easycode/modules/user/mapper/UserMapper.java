@@ -16,5 +16,5 @@ public interface UserMapper extends BaseMapper<UserEntity> {
 
     UserEntity getUserInfoByName(String name);
 
-    UserVO getUserInfo(Integer userId);
+    UserVO getUserInfo(Long userId);
 }
