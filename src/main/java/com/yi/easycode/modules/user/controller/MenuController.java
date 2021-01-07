@@ -1,7 +1,10 @@
 package com.yi.easycode.modules.user.controller;
 
+import com.github.pagehelper.PageInfo;
+import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.user.dto.MenuDTO;
+import com.yi.easycode.modules.user.entity.MenuEntity;
 import com.yi.easycode.modules.user.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,24 +29,27 @@ public class MenuController {
 
     @ApiOperation("菜单列表")
     @PostMapping("/list")
-    public Result getMenuList() {
-       return menuService.getMenuList();
+    public Result getMenuList(@RequestParam(value = "menuName",required = false) String menuName,
+                              @RequestParam("pageNum") Integer pageNum,
+                              @RequestParam("pageSize") Integer pageSize) {
+        PageInfo<MenuEntity> pageInfo = menuService.getMenuList(menuName,pageNum,pageSize);
+        return Result.success(PageResult.convert(pageInfo));
     }
 
     @ApiOperation("新增菜单")
-    @PostMapping("/saveMenu")
+    @PostMapping("/save")
     public Result saveMenu(@RequestBody MenuDTO menuDTO) {
         return menuService.saveMenu(menuDTO);
     }
 
     @ApiOperation("修改菜单")
-    @PostMapping("/updateMenu")
-    public Result updateMenu(MenuDTO menuDTO) {
+    @PostMapping("/update")
+    public Result updateMenu(@RequestBody MenuDTO menuDTO) {
         return menuService.updateMenu(menuDTO);
     }
 
     @ApiOperation("删除菜单")
-    @PostMapping("/deleteMenu/{id}")
+    @GetMapping("/delete/{id}")
     public Result deleteMenu(@PathVariable Long id) {
         return menuService.deleteMenu(id);
     }

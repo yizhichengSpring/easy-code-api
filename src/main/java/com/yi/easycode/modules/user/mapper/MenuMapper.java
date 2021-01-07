@@ -17,7 +17,10 @@ import java.util.List;
  */
 public interface MenuMapper extends BaseMapper<MenuEntity> {
 
-    List<MenuEntity> getMenuList();
+    List<MenuEntity> getMenuList(
+            @Param("menuName") String menuName,
+            @Param("pageNum") Integer pageNum,
+            @Param("pageSize") Integer pageSize);
 
     List<SelectVO> getMenuCodes();
 

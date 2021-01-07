@@ -1,7 +1,11 @@
 package com.yi.easycode.modules.user.service.impl;
 
 import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.exception.ApiException;
 import com.yi.easycode.commons.result.Result;
@@ -30,10 +34,16 @@ import java.util.List;
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> implements MenuService {
 
     @Override
-    public Result getMenuList() {
-        List<MenuEntity> menuEntities = baseMapper.getMenuList();
-        menuEntities.stream().forEach(x -> log.info("菜单列表:{}",x.toString()));
-        return Result.success(menuEntities);
+    public PageInfo<MenuEntity> getMenuList(String menuName,Integer pageNum,Integer pageSize) {
+        QueryWrapper<MenuEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("del_flag", DeleteEnums.NORMAL.getCode());
+        if (StrUtil.isNotBlank(menuName)) {
+            wrapper.like("menu_name",menuName);
+        }
+        wrapper.orderByDesc("create_time");
+        PageHelper.startPage(pageNum,pageSize);
+        List<MenuEntity> menuEntities = baseMapper.selectList(wrapper);
+        return new PageInfo<>(menuEntities);
     }
 
     @Override
@@ -43,6 +53,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
             BeanUtils.copyProperties(menuDTO,menuEntity);
             baseMapper.insert(menuEntity);
         }catch (Exception e) {
+            log.error("error menu save",e);
             throw new ApiException("保存菜单失败");
         }
         return Result.success();
@@ -70,7 +81,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
 
     @Override
     public Result treeMenu() {
-        List<MenuEntity> menuEntities = baseMapper.getMenuList();
+        List<MenuEntity> menuEntities = baseMapper.getMenuList(null,0,100);
         List<Tree<String>> treeList = MenuUtil.getTreeMenus(menuEntities);
         return Result.success(treeList);
     }
