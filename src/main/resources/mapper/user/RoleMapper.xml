@@ -13,16 +13,16 @@
     </resultMap>
 
     <select id="getRoleCode" resultType="com.yi.easycode.modules.user.vo.SelectVO">
-        select id as selectCode,role_name as selectValue from t_role where del_flag = 0
+        SELECT id AS selectCode,role_name AS selectValue FROM t_role WHERE del_flag = 0
     </select>
     
     <select id="getRoleByUserId" resultType="com.yi.easycode.modules.user.entity.RoleEntity">
-        select
+        SELECT
             *
-        from
+        FROM
             t_role r
-                left join t_user_role_bind urb on r.id = urb.role_id
-        where
+                LEFT JOIN t_user_role_bind urb ON r.id = urb.role_id
+        WHERE
             urb.user_id = #{userId};
     </select>
 </mapper>

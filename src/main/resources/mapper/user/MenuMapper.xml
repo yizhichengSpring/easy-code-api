@@ -18,28 +18,33 @@
     </resultMap>
 
     <select id="getMenuList" resultType="com.yi.easycode.modules.user.entity.MenuEntity">
-        SELECT * FROM t_menu where del_flag = 0
+        SELECT * FROM t_menu WHERE del_flag = 0
         <if test="menuName != '' and menName != null">
-            and menu_name like #{menuName} + '%'
+            AND menu_name LIKE #{menuName} + '%'
         </if>
         LIMIT #{pageNum},#{pageSize}
     </select>
     
+    
+    <select id="getAllMenu" resultType="com.yi.easycode.modules.user.entity.MenuEntity">
+        SELECT * FROM t_menu WHERE del_flag = 0
+    </select>
+    
     <select id="getMenuCodes" resultType="com.yi.easycode.modules.user.vo.SelectVO">
-        select id as selectCode,menu_name as selectValue from t_menu
+        SELECT id AS selectCode,menu_name AS selectValue FROM t_menu
     </select>
     
     <select id="getMenusByRoleId" resultType="com.yi.easycode.modules.user.entity.MenuEntity">
-        select
+        SELECT
             m.*
-        from
+        FROM
             t_menu m
-                left join t_role_menu_bind rmb on m.id = rmb.menu_id
-        where
-            rmb.role_id in
+                LEFT JOIN t_role_menu_bind rmb ON m.id = rmb.menu_id
+        WHERE
+            rmb.role_id IN
             <foreach item="roleId" collection="roleIds" separator="," open="(" close=")" index="">
                        #{roleId, jdbcType=NUMERIC}
             </foreach>
-          and m.del_flag = 0;
+          AND m.del_flag = 0;
     </select>
 </mapper>

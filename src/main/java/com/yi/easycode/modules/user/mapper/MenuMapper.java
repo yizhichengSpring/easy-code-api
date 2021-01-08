@@ -22,6 +22,8 @@ public interface MenuMapper extends BaseMapper<MenuEntity> {
             @Param("pageNum") Integer pageNum,
             @Param("pageSize") Integer pageSize);
 
+    List<MenuEntity> getAllMenu();
+
     List<SelectVO> getMenuCodes();
 
     List<MenuEntity> getMenusByRoleId(@Param("roleIds") List<Long> roleIds);

@@ -12,6 +12,6 @@
     </resultMap>
 
     <delete id="deleteByUserId" >
-        delete from t_user_role_bind where user_id = #{userId}
+        DELETE FROM t_user_role_bind WHERE user_id = #{userId}
     </delete>
 </mapper>

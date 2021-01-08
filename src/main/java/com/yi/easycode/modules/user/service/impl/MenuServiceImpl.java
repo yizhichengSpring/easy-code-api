@@ -81,7 +81,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
 
     @Override
     public Result treeMenu() {
-        List<MenuEntity> menuEntities = baseMapper.getMenuList(null,0,100);
+        List<MenuEntity> menuEntities = baseMapper.getAllMenu();
         List<Tree<String>> treeList = MenuUtil.getTreeMenus(menuEntities);
         return Result.success(treeList);
     }
