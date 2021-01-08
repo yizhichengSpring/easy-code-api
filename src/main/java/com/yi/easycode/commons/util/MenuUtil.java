@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
-import com.yi.easycode.modules.user.entity.MenuEntity;
+import com.yi.easycode.modules.auth.entity.MenuEntity;
 
 import java.util.HashMap;
 import java.util.List;
