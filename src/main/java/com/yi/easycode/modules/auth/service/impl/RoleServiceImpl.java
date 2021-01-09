@@ -1,7 +1,6 @@
 package com.yi.easycode.modules.auth.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,7 +9,6 @@ import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.exception.ApiException;
 import com.yi.easycode.commons.result.Result;
-import com.yi.easycode.commons.util.MenuUtil;
 import com.yi.easycode.modules.auth.dto.BindRoleMenuDTO;
 import com.yi.easycode.modules.auth.dto.RoleDTO;
 import com.yi.easycode.modules.auth.entity.MenuEntity;
@@ -63,17 +61,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
                 Long roleId = x.getId();
                 //获取菜单信息
                 List<MenuEntity> menuEntities = menuMapper.getMenusByRoleId(roleId);
-                List<Tree<String>> treeList = MenuUtil.getTreeMenus(menuEntities);
                 RoleVO roleVO = new RoleVO();
                 BeanUtils.copyProperties(x,roleVO);
-                roleVO.setMenus(treeList);
+                roleVO.setMenus(menuEntities);
                 roleVOList.add(roleVO);
             });
         }
         return new PageInfo<>(roleVOList);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result saveRoleEntity(RoleDTO roleDTO) {
         RoleEntity roleEntity = new RoleEntity();
@@ -91,11 +88,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         return Result.fail("该角色已存在");
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result updateRoleEntity(RoleDTO roleDTO) {
         RoleEntity roleEntity = new RoleEntity();
         BeanUtils.copyProperties(roleDTO, roleEntity);
         baseMapper.updateById(roleEntity);
+        //保存角色-菜单管理表
+        bindRoleAndMenus(roleEntity.getId(), roleDTO.getMenuIds());
         return Result.success();
     }
 
@@ -112,7 +112,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         return Result.success(baseMapper.getRoleCode());
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result bindRoleMenus(BindRoleMenuDTO dto) {
         Long roleId = dto.getRoleId();

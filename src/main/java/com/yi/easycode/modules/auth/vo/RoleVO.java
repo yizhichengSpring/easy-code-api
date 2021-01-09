@@ -1,6 +1,7 @@
 package com.yi.easycode.modules.auth.vo;
 
 import cn.hutool.core.lang.tree.Tree;
+import com.yi.easycode.modules.auth.entity.MenuEntity;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -29,5 +30,5 @@ public class RoleVO implements Serializable {
     
     private Integer delFlag;
 
-    List<Tree<String>> menus;
+    List<MenuEntity> menus;
 }

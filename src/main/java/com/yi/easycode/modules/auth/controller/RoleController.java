@@ -23,7 +23,7 @@ import javax.validation.Valid;
  **/
 @RestController
 @RequestMapping("/role")
-@Api(value = "角色模块",tags = "用户模块")
+@Api(value = "角色模块",tags = "角色模块")
 @Slf4j
 public class RoleController {
     @Autowired

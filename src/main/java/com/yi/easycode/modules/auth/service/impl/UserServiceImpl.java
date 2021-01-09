@@ -145,7 +145,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return new PageInfo<>(userEntities);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Result bindUserRoles(BindUserRoleDTO dto) {
         Long userId = dto.getUserId();
