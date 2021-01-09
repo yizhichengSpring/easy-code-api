@@ -224,6 +224,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public UserEntity update(UserDTO userInfo) {
         UserVO userVO = baseMapper.getUserInfo(userInfo.getUserId());
@@ -233,6 +234,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         UserEntity entity = new UserEntity();
         BeanUtils.copyProperties(userInfo,entity);
         baseMapper.updateById(entity);
+        //用户与角色绑定
+        bindUserAndRoleId(entity.getUserId(),userInfo.getRoleIds());
         return entity;
     }
 
