@@ -35,8 +35,7 @@ public class UserController {
     @ApiOperation("登录")
     @PostMapping(value = "login")
     public Result login(@RequestBody @Valid UserDTO userDTO) {
-        String token = userService.login(userDTO);
-        return Result.success(token);
+       return userService.login(userDTO);
     }
 
     @ApiOperation("注册")

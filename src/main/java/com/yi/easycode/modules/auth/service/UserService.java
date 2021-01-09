@@ -29,7 +29,7 @@ public interface UserService {
      * @param userDTO
      * @return
      */
-    String login(UserDTO userDTO);
+    Result login(UserDTO userDTO);
 
     /**
      * 注销

@@ -30,4 +30,6 @@ public class FailInfo {
     public static final FailInfo FAIL_USER_NOTFOUND = new FailInfo(10001,"用户不存在");
 
 
+    public static final FailInfo VALID_USER_PASSWORD = new FailInfo(10001,"用户登录失败，请检查用户名和密码");
+
 }

@@ -8,9 +8,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.yi.easycode.commons.annotation.LoginLog;
 import com.yi.easycode.commons.component.EasyCodeRedisTemplate;
 import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.exception.ApiException;
+import com.yi.easycode.commons.result.FailInfo;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.commons.util.JwtUtil;
 import com.yi.easycode.commons.util.MenuUtil;
@@ -87,14 +89,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         return baseMapper.getUserInfo(user.getUserId());
     }
 
+    @LoginLog
     @Override
-    public String login(UserDTO userDTO) {
+    public Result login(UserDTO userDTO) {
         String userName = userDTO.getUserName();
         QueryWrapper<UserEntity> userwrapper = new QueryWrapper<>();
         userwrapper.eq("user_name",userName);
         UserEntity tmpUserEntity = baseMapper.selectOne(userwrapper);
         if (null == tmpUserEntity) {
-            throw new ApiException("用户登录失败,该用户不存在，请注册");
+            return Result.fail(FailInfo.FAIL_USER_NOTFOUND);
         }
         String md5Password = SecureUtil.md5(userDTO.getPassword()+salt);
         QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
@@ -102,13 +105,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
                 eq("password",md5Password);
         UserEntity userEntity = baseMapper.selectOne(wrapper);
         if (null == userEntity) {
-            throw new ApiException("用户登录失败,请检查密码是否正确");
+            return Result.fail(FailInfo.VALID_USER_PASSWORD);
         }
         log.info("用户信息为,{}",userEntity);
         String token = jwtUtil.generateJwtToken(userEntity.getUserName());
         log.info("生成的token信息为,{}",userEntity);
         redisTemplate.set(TOKEN_REDIS_KEY + userEntity.getUserId(),token,expireTime);
-        return token;
+        return Result.success(token);
     }
 
 

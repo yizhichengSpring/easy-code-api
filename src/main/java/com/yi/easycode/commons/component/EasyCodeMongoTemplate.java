@@ -32,6 +32,17 @@ public class EasyCodeMongoTemplate {
     }
 
     /**
+     * 查询全部
+     * @param entityClass
+     * @param <T>
+     * @return
+     */
+    public  <T> T findAll(Class entityClass) {
+        log.info("默认查询全部对象,{}",entityClass.getName());
+        return (T)mongoTemplate.findAll(entityClass);
+    }
+
+    /**
      * 查询多个
      * @param param
      * @param paramVal
