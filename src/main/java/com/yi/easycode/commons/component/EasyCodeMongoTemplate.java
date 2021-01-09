@@ -2,6 +2,7 @@ package com.yi.easycode.commons.component;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -32,14 +33,17 @@ public class EasyCodeMongoTemplate {
     }
 
     /**
-     * 查询全部
+     * 根据某个字段倒序
+     * @param sortColumn
      * @param entityClass
      * @param <T>
      * @return
      */
-    public  <T> T findAll(Class entityClass) {
-        log.info("默认查询全部对象,{}",entityClass.getName());
-        return (T)mongoTemplate.findAll(entityClass);
+    public  <T> T findAll(String sortColumn,Class entityClass) {
+        Query query = new Query();
+        query.with(Sort.by(Sort.Order.desc(sortColumn)));
+        log.info("默认查询全部对象,对象名为,{}",entityClass.getName());
+        return (T)mongoTemplate.find(query,entityClass);
     }
 
     /**
