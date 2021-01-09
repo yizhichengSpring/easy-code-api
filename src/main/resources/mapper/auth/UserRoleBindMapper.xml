@@ -14,4 +14,8 @@
     <delete id="deleteByUserId" >
         DELETE FROM t_user_role_bind WHERE user_id = #{userId}
     </delete>
+    
+    <select id="getRoleIdsByUserId" resultType="java.lang.String">
+        SELECT role_id from t_user_role_bind WHERE user_id = #{userId}
+    </select>
 </mapper>

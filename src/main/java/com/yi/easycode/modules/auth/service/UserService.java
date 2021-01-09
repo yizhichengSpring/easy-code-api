@@ -45,7 +45,7 @@ public interface UserService {
      * @param pageSize
      * @return
      */
-    PageInfo<UserEntity> getUserList(String userName, Integer pageNum, Integer pageSize);
+    PageInfo<UserVO> getUserList(String userName, Integer pageNum, Integer pageSize);
 
     /**
      * 用户绑定角色信息

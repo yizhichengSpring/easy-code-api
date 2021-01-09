@@ -3,6 +3,7 @@ package com.yi.easycode.modules.auth.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author yizhicheng
@@ -28,4 +29,6 @@ public class UserVO implements Serializable {
     private String createTime;
 
     private String updateTime;
+    
+    private List<String> roleIds;
 }

@@ -57,7 +57,7 @@ public class RoleController {
     }
     
     @ApiOperation("角色码值")
-    @PostMapping("/getRoleCode")
+    @GetMapping("/getRoleCode")
     public Result getRoleCode() {
         return roleService.getRoleCode();
     }

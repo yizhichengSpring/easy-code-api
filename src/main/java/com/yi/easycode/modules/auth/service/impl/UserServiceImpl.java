@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +71,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     private MenuMapper menuMapper;
 
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public UserVO register(UserDTO userDTO) {
         checkUser(userDTO);
@@ -79,6 +81,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         String newPassword = pwd+salt;
         user.setPassword(SecureUtil.md5(newPassword));
         baseMapper.insert(user);
+        //绑定用户和角色之间的关系
+        bindUserAndRoleId(user.getUserId(),userDTO.getRoleIds());
         log.info("userId:{}",user.getUserId());
         return baseMapper.getUserInfo(user.getUserId());
     }
@@ -133,7 +137,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public PageInfo<UserEntity> getUserList(String userName, Integer pageNum, Integer pageSize) {
+    public PageInfo<UserVO> getUserList(String userName, Integer pageNum, Integer pageSize) {
         QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
         wrapper.eq("del_flag", DeleteEnums.NORMAL.getCode());
         if (StrUtil.isNotBlank(userName)) {
@@ -142,7 +146,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         wrapper.orderByDesc("user_id");
         PageHelper.startPage(pageNum,pageSize);
         List<UserEntity> userEntities = baseMapper.selectList(wrapper);
-        return new PageInfo<>(userEntities);
+        List<UserVO> userVOS = new ArrayList<>();
+        userEntities.stream().forEach(x -> {
+            List<String> roleIds = bindMapper.getRoleIdsByUserId(x.getUserId());
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(x,userVO);
+            userVO.setRoleIds(roleIds);
+            userVOS.add(userVO);
+        });
+        return new PageInfo<>(userVOS);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -150,19 +162,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public Result bindUserRoles(BindUserRoleDTO dto) {
         Long userId = dto.getUserId();
         UserEntity entity = baseMapper.selectById(userId);
+        //绑定用户和角色之间的关系
+        bindUserAndRoleId(userId,dto.getRoleIds());
         if (null == entity) {
             throw new ApiException("用户不存在");
         }
-        //删除之前该用户的所有角色
-        bindMapper.deleteByUserId(userId);
-        //保存新角色权限
-        for (Long roleId : dto.getRoleIds()) {
-            UserRoleBindEntity bindEntity = new UserRoleBindEntity();
-            bindEntity.setUserId(userId);
-            bindEntity.setRoleId(roleId);
-            bindMapper.insert(bindEntity);
-        }
         return Result.success();
+    }
+    
+    private void bindUserAndRoleId(Long userId, List<Long> roleIds) {
+        if (CollectionUtil.isNotEmpty(roleIds)) {
+            //删除之前该用户的所有角色
+            bindMapper.deleteByUserId(userId);
+            //保存新角色权限
+            for (Long roleId : roleIds) {
+                UserRoleBindEntity bindEntity = new UserRoleBindEntity();
+                bindEntity.setUserId(userId);
+                bindEntity.setRoleId(roleId);
+                bindMapper.insert(bindEntity);
+            }
+        }
     }
 
     @Override

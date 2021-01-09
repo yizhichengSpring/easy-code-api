@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * @author yizhicheng
@@ -44,4 +45,10 @@ public class UserDTO {
     @ApiModelProperty("邮箱")
     @Length(max = 30,message = "邮箱长度超长")
     private String email;
+
+    /**
+     * 角色id
+     */
+    @ApiModelProperty("角色id")
+    private List<Long> roleIds;
 }

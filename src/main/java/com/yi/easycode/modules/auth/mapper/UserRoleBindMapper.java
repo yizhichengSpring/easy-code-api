@@ -3,6 +3,8 @@ package com.yi.easycode.modules.auth.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yi.easycode.modules.auth.entity.UserRoleBindEntity;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户与角色绑定表 Mapper 接口
@@ -14,4 +16,6 @@ import com.yi.easycode.modules.auth.entity.UserRoleBindEntity;
 public interface UserRoleBindMapper extends BaseMapper<UserRoleBindEntity> {
 
     void deleteByUserId(Long userId);
+
+    List<String> getRoleIdsByUserId(Long userId);
 }

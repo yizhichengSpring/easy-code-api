@@ -71,7 +71,7 @@ public class UserController {
     public Result getUserList(@RequestParam(value = "userName",required = false) String userName,
                               @RequestParam("pageNum") Integer pageNum,
                               @RequestParam("pageSize") Integer pageSize) {
-        PageInfo<UserEntity> pageInfo = userService.getUserList(userName,pageNum,pageSize);
+        PageInfo<UserVO> pageInfo = userService.getUserList(userName,pageNum,pageSize);
         return Result.success(PageResult.convert(pageInfo));
     }
     
