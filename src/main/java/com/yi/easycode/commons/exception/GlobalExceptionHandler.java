@@ -75,10 +75,4 @@ public class GlobalExceptionHandler {
         return Result.fail(e.getCode(),e.getMessage());
     }
 
-    @ExceptionHandler(value = Exception.class)
-    public Result exception(Exception e) {
-        log.error("exception 错误信息为,{}",e.getMessage());
-        return Result.fail(e.getMessage());
-    }
-
 }

@@ -90,6 +90,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @LoginLog
+    @Transactional
     @Override
     public Result login(UserDTO userDTO) {
         String userName = userDTO.getUserName();
