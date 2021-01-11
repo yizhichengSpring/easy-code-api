@@ -200,7 +200,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
                         .collect(Collectors.toList());
         //获取菜单信息
         List<MenuEntity> menuEntities = menuMapper.getMenusByRoleIds(roleIds);
-        List<Tree<String>> treeList = MenuUtil.getTreeMenus(menuEntities);
         Map<String, Object> data = new HashMap<>(16);
         data.put("userName",userEntity.getUserName());
         List<String> roleNames =
@@ -209,7 +208,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
                         .map(RoleEntity::getRoleName)
                         .collect(Collectors.toList());
         data.put("roles",roleNames);
-        data.put("menus",treeList);
+        List<String> menuNames =
+                menuEntities
+                        .stream()
+                        .map(MenuEntity::getMenuName)
+                        .collect(Collectors.toList());
+        data.put("menus",menuNames);
         data.put("avatar","http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg.jpg");
         return Result.success(data);
     }
