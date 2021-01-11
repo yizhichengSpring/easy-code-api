@@ -237,6 +237,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         }
         UserEntity entity = new UserEntity();
         BeanUtils.copyProperties(userInfo,entity);
+        String newPassword = userInfo.getPassword()+salt;
+        entity.setPassword(SecureUtil.md5(newPassword));
         baseMapper.updateById(entity);
         //用户与角色绑定
         bindUserAndRoleId(entity.getUserId(),userInfo.getRoleIds());
