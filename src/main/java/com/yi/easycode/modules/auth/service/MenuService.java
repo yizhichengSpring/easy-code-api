@@ -6,6 +6,8 @@ import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.auth.dto.MenuDTO;
 import com.yi.easycode.modules.auth.entity.MenuEntity;
 
+import java.util.List;
+
 /**
  * <p>
  * 菜单表 服务类
@@ -20,6 +22,13 @@ public interface MenuService extends IService<MenuEntity> {
      * @return
      */
     PageInfo<MenuEntity> getMenuList(String menuName, Integer pageNum, Integer pageSize);
+
+    /**
+     * 获取树形菜单列表
+     * @return
+     */
+    List<MenuEntity> getTreeMenuList();
+
     /**
      * 保存菜单
      * @return

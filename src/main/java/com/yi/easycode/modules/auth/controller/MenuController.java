@@ -1,8 +1,10 @@
 package com.yi.easycode.modules.auth.controller;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
+import com.yi.easycode.commons.util.MenuUtil;
 import com.yi.easycode.modules.auth.dto.MenuDTO;
 import com.yi.easycode.modules.auth.entity.MenuEntity;
 import com.yi.easycode.modules.auth.service.MenuService;
@@ -11,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author yizhicheng
@@ -34,6 +38,14 @@ public class MenuController {
                               @RequestParam("pageSize") Integer pageSize) {
         PageInfo<MenuEntity> pageInfo = menuService.getMenuList(menuName,pageNum,pageSize);
         return Result.success(PageResult.convert(pageInfo));
+    }
+
+    @ApiOperation("获取树形菜单列表")
+    @GetMapping("/treeList")
+    public Result treeList() {
+        List<MenuEntity> menuList = menuService.getTreeMenuList();
+        List<Tree<String>> treeList = MenuUtil.getTreeMenus(menuList);
+        return Result.success(treeList);
     }
 
     @ApiOperation("新增菜单")

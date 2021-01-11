@@ -48,6 +48,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
     }
 
     @Override
+    public List<MenuEntity> getTreeMenuList() {
+        List<MenuEntity> menuEntities = baseMapper.selectList(null);
+        return menuEntities;
+    }
+
+    @Override
     public Result saveMenu(MenuDTO menuDTO) {
         MenuEntity menuEntity = new MenuEntity();
         try {
