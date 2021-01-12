@@ -20,6 +20,10 @@ public interface RoleService extends IService<RoleEntity> {
 
     /**
      * 查询角色列表
+     * @param username
+     * @param pageNum
+     * @param pageSize
+     * @return RoleVO
      */
     PageInfo<RoleVO> getRoleList(String username, Integer pageNum, Integer pageSize);
 

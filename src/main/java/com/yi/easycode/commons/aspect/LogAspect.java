@@ -121,7 +121,7 @@ public class LogAspect {
 
 
     public Map<String, String> converMap(Map<String, String[]> paramMap) {
-        Map<String, String> rtnMap = new HashMap<>();
+        Map<String, String> rtnMap = new HashMap<>(16);
         for (String key : paramMap.keySet()) {
             rtnMap.put(key, paramMap.get(key)[0]);
         }

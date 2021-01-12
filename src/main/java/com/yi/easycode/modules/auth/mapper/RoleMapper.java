@@ -16,7 +16,16 @@ import java.util.List;
  */
 public interface RoleMapper extends BaseMapper<RoleEntity> {
 
+    /**
+     * 获取角色码值
+     * @return
+     */
     List<SelectVO> getRoleCode();
 
+    /**
+     * 根据用户id查询角色信息
+     * @param userId
+     * @return
+     */
     List<RoleEntity> getRoleByUserId(Long userId);
 }

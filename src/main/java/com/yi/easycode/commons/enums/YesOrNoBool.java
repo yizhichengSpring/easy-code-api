@@ -7,7 +7,15 @@ package com.yi.easycode.commons.enums;
  * @Date 2020/10/12 9:40 AM
  **/
 public enum YesOrNoBool {
+
+    /**
+     * YES
+     */
     YES("YES",true),
+
+    /**
+     * NO
+     */
     NO("NO",false);
 
     private String code;

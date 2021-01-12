@@ -13,5 +13,9 @@ import com.yi.easycode.modules.auth.entity.RoleMenuBindEntity;
  */
 public interface RoleMenuBindMapper extends BaseMapper<RoleMenuBindEntity> {
 
+    /**
+     * 删除角色菜单绑定信息
+     * @param roleId
+     */
     void deleteByRoleId(Long roleId);
 }

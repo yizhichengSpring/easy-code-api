@@ -10,7 +10,17 @@ import com.yi.easycode.modules.generate.dto.DatabaseDTO;
  * @Date 2020/12/19 7:32 下午
  **/
 public interface ConnectionService {
+    /**
+     * 保存数据库连接
+     * @param dto
+     * @return
+     */
     Result saveConnection(DatabaseDTO dto);
 
+    /**
+     * 获取表信息
+     * @param tableName
+     * @return
+     */
     Result getTableColumn(String tableName);
 }

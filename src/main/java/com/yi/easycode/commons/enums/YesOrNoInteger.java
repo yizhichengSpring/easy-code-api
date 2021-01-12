@@ -7,7 +7,15 @@ package com.yi.easycode.commons.enums;
  * @Date 2020/10/12 9:40 AM
  **/
 public enum YesOrNoInteger {
+
+    /**
+     *  YES
+     */
     YES("YES",0),
+
+    /**
+     *  NO
+     */
     NO("NO",1);
 
     private String code;

@@ -32,8 +32,8 @@ public interface UserService {
     Result login(UserDTO userDTO);
 
     /**
-     * 注销
-     * @param
+     * 注销登录
+     * @param request
      * @return
      */
     Boolean loginOut(HttpServletRequest request);
@@ -55,8 +55,9 @@ public interface UserService {
     Result bindUserRoles(BindUserRoleDTO dto);
 
     /**
-     * 用户信息
+     * 查询用户信息
      * @param request
+     * @return
      */
     Result getInfo(HttpServletRequest request);
 

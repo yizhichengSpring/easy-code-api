@@ -17,8 +17,12 @@ import java.util.List;
  * @since 2020-12-30
  */
 public interface MenuService extends IService<MenuEntity> {
+
     /**
      * 获取菜单列表
+     * @param menuName
+     * @param pageNum
+     * @param pageSize
      * @return
      */
     PageInfo<MenuEntity> getMenuList(String menuName, Integer pageNum, Integer pageSize);
@@ -31,24 +35,31 @@ public interface MenuService extends IService<MenuEntity> {
 
     /**
      * 保存菜单
+     * @param menuDTO
      * @return
      */
     Result saveMenu(MenuDTO menuDTO);
+
     /**
      * 修改菜单
+     * @param menuDTO
      * @return
      */
     Result updateMenu(MenuDTO menuDTO);
+
     /**
      * 删除菜单
+     * @param id
      * @return
      */
     Result deleteMenu(Long id);
+
     /**
      * 获取树形菜单
      * @return
      */
     Result treeMenu();
+
     /**
      * 获取菜单码值
      * @return

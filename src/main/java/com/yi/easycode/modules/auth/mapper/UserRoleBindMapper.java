@@ -15,7 +15,16 @@ import java.util.List;
  */
 public interface UserRoleBindMapper extends BaseMapper<UserRoleBindEntity> {
 
+    /**
+     * 删除用户角色关联关系
+     * @param userId
+     */
     void deleteByUserId(Long userId);
 
+    /**
+     * 根据用户id查询对应角色id
+     * @param userId
+     * @return
+     */
     List<String> getRoleIdsByUserId(Long userId);
 }
