@@ -2,6 +2,7 @@ package com.yi.easycode.modules.auth.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -19,6 +20,7 @@ public class RoleDTO {
     /**
      * 角色名称
      */
+    @NotBlank(message = "角色名称不能为空")
     private String roleName;
 
     /**

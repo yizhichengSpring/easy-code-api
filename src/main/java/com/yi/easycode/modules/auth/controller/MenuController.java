@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -50,7 +51,7 @@ public class MenuController {
 
     @ApiOperation("新增菜单")
     @PostMapping("/save")
-    public Result saveMenu(@RequestBody MenuDTO menuDTO) {
+    public Result saveMenu(@RequestBody @Valid MenuDTO menuDTO) {
         return menuService.saveMenu(menuDTO);
     }
 

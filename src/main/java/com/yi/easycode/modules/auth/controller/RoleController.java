@@ -40,13 +40,13 @@ public class RoleController {
 
     @ApiOperation("新增角色")
     @PostMapping("/saveRole")
-    public Result saveRole(@RequestBody RoleDTO roleDTO) {
+    public Result saveRole(@RequestBody @Valid RoleDTO roleDTO) {
         return roleService.saveRoleEntity(roleDTO);
     }
 
     @ApiOperation("修改角色")
     @PostMapping("/updateRole")
-    public Result updateRole(@RequestBody RoleDTO roleDTO) {
+    public Result updateRole(@RequestBody @Valid RoleDTO roleDTO) {
         return roleService.updateRoleEntity(roleDTO);
     }
 

@@ -129,14 +129,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     }
     
     private void bindRoleAndMenus(Long roleId,List<Long> menuIds) {
-        //删除之前该角色的所有菜单
-        bindMapper.deleteByRoleId(roleId);
-        //保存新角色-菜单权限
-        for (Long menuId : menuIds) {
-            RoleMenuBindEntity bindEntity = new RoleMenuBindEntity();
-            bindEntity.setRoleId(roleId);
-            bindEntity.setMenuId(menuId);
-            bindMapper.insert(bindEntity);
+        if (CollectionUtil.isNotEmpty(menuIds)) {
+            //删除之前该角色的所有菜单
+            bindMapper.deleteByRoleId(roleId);
+            //保存新角色-菜单权限
+            for (Long menuId : menuIds) {
+                RoleMenuBindEntity bindEntity = new RoleMenuBindEntity();
+                bindEntity.setRoleId(roleId);
+                bindEntity.setMenuId(menuId);
+                bindMapper.insert(bindEntity);
+            }
         }
     }
 }
