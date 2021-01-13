@@ -1,13 +1,19 @@
 package com.yi.easycode.modules.generate.service.impl;
 
+import cn.hutool.core.date.DateUtil;
+import com.yi.easycode.commons.component.EasyCodeMongoTemplate;
+import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.commons.util.JdbcUtil;
 import com.yi.easycode.commons.util.PageListUtil;
 import com.yi.easycode.modules.generate.dto.DatabaseDTO;
 import com.yi.easycode.modules.generate.entity.ColumnEntity;
+import com.yi.easycode.modules.generate.entity.mongodb.DBInfoMongo;
 import com.yi.easycode.modules.generate.service.ConnectionService;
-import com.yi.easycode.modules.generate.vo.TableVO;
+import com.yi.easycode.modules.sys.entity.ExceptionLogMongo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -25,18 +31,40 @@ import java.util.List;
 @Slf4j
 public class ConnectionServiceImpl implements ConnectionService {
 
+    @Autowired
+    private EasyCodeMongoTemplate mongoTemplate;
+
     @Override
-    public Result saveConnection(DatabaseDTO dto) {
+    public PageResult<DBInfoMongo> getAllConnectionList(Integer pageNum, Integer pageSize) {
+        List<DBInfoMongo> dbInfoMongoList = mongoTemplate.findAll("createTime", ExceptionLogMongo.class);
+        PageResult<DBInfoMongo> pageResult = PageListUtil.startPage(pageNum,pageSize,dbInfoMongoList);
+        return pageResult;
+    }
+
+    @Override
+    public Result testConnection(DatabaseDTO dto) {
         try {
             Connection connection = JdbcUtil.getConn(dto);
-            DatabaseMetaData metaData = JdbcUtil.getMetaData(connection);
-            List<TableVO> tableVOS = JdbcUtil.getAllTablesBySchema(metaData,dto.getDatabaseName());
             closeConnection(connection);
-            return Result.success(PageListUtil.startPage(null,null,tableVOS));
+            return Result.success();
         }catch (SQLException e) {
             log.error("数据库连接失败,{}",e.getMessage());
             return Result.fail(e.getMessage());
         }
+    }
+
+    @Override
+    public Result saveConnection(DatabaseDTO dto) {
+        Result result = testConnection(dto);
+        if (result.isSuccess()) {
+            //保存信息至MongoDB中
+            DBInfoMongo dbInfoMongo = new DBInfoMongo();
+            BeanUtils.copyProperties(dto, dbInfoMongo);
+            dbInfoMongo.setCreateTime(DateUtil.now());
+            mongoTemplate.save(dbInfoMongo);
+            return Result.success();
+        }
+        return Result.fail("保存数据库连接失败");
     }
 
 
@@ -66,4 +94,6 @@ public class ConnectionServiceImpl implements ConnectionService {
             conn.close();
         }
     }
+
+
 }

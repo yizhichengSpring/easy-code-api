@@ -1,7 +1,10 @@
 package com.yi.easycode.modules.generate.controller;
 
+import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
+import com.yi.easycode.modules.auth.entity.mongodb.LoginLogMongo;
 import com.yi.easycode.modules.generate.dto.DatabaseDTO;
+import com.yi.easycode.modules.generate.entity.mongodb.DBInfoMongo;
 import com.yi.easycode.modules.generate.service.ConnectionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,19 +21,28 @@ import javax.validation.Valid;
  * @Date 2020/12/19 7:28 下午
  **/
 @RestController
-@RequestMapping("/conn")
+@RequestMapping("/datasource")
 @Api(value = "数据库连接模块",tags = "数据库连接模块")
 @Slf4j
 public class ConnectionController {
+
     @Autowired
     private ConnectionService connectionService;
 
-    /**
-     * 校验数据库连接信息，如果成功，返回该数据库下所有表信息
-     * @param dto
-     * @return
-     */
-    @ApiOperation("校验数据库连接信息")
+    @GetMapping("list")
+    @ApiOperation("数据源列表")
+    public Result getAllConnectionList(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
+        PageResult<DBInfoMongo> pageResult = connectionService.getAllConnectionList(pageNum, pageSize);
+        return Result.success(pageResult);
+    }
+
+    @ApiOperation("测试数据库连接信息")
+    @PostMapping("/test")
+    public Result testConnection(@Valid @RequestBody DatabaseDTO dto){
+        return connectionService.testConnection(dto);
+    }
+
+    @ApiOperation("保存数据库连接信息")
     @PostMapping("/saveConnection")
     public Result saveConnection(@Valid @RequestBody DatabaseDTO dto) {
         return connectionService.saveConnection(dto);

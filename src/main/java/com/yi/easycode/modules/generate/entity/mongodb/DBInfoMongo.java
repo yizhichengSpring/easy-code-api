@@ -44,7 +44,11 @@ public class DBInfoMongo {
      */
     private String password;
     /**
-     * 端口号
+     * 数据库名称
      */
     private String databaseName;
+    /**
+     * 创建时间
+     */
+    private String createTime;
 }

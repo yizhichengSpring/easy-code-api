@@ -54,7 +54,12 @@ public class GenerateServiceImpl implements GenerateService {
 
     private Map<String, Object> generateEntityData(GenerateDTO generateDTO) {
         DatabaseDTO dto = new DatabaseDTO();
-        Connection connection = JdbcUtil.getConn(dto);
+        Connection connection = null;
+        try {
+            connection = JdbcUtil.getConn(dto);
+        }catch (SQLException e) {
+            log.error("error msg {}",e);
+        }
         DatabaseMetaData metaData = JdbcUtil.getMetaData(connection);
         List<ColumnEntity> columnEntities = JdbcUtil.getAllTableColumnByTable(metaData,dto.getDatabaseName(),generateDTO.getTableName());
         GenerateEntity generateEntity = new GenerateEntity();

@@ -23,19 +23,19 @@ import java.util.List;
 public class LogServiceImpl implements LogService {
 
     @Autowired
-    private EasyCodeMongoTemplate multiTemplate;
+    private EasyCodeMongoTemplate mongoTemplate;
 
     @Override
     public PageResult<LoginLogMongo> findLoginLogAll(Integer pageNum, Integer pageSize) {
         //todo 这里直接查询了全部，然后在Java中分页，这样做数据多了之后，影响效率，后期需要修改
-        List<LoginLogMongo> loginList = multiTemplate.findAll("loginTime",LoginLogMongo.class);
+        List<LoginLogMongo> loginList = mongoTemplate.findAll("loginTime",LoginLogMongo.class);
         PageResult<LoginLogMongo> pageResult = PageListUtil.startPage(pageNum,pageSize,loginList);
         return pageResult;
     }
 
     @Override
     public PageResult<ExceptionLogMongo> findExceptionLogAll(Integer pageNum, Integer pageSize) {
-        List<ExceptionLogMongo> loginList = multiTemplate.findAll("exceptionTime", ExceptionLogMongo.class);
+        List<ExceptionLogMongo> loginList = mongoTemplate.findAll("exceptionTime", ExceptionLogMongo.class);
         PageResult<ExceptionLogMongo> pageResult = PageListUtil.startPage(pageNum,pageSize,loginList);
         return pageResult;
     }

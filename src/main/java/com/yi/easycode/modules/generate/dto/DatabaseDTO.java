@@ -14,6 +14,10 @@ import javax.validation.constraints.NotNull;
 @Data
 public class DatabaseDTO {
     /**
+     * 连接名
+     */
+    private String connectionName;
+    /**
      * 数据库类型
      */
     @ApiModelProperty("数据库类型")
