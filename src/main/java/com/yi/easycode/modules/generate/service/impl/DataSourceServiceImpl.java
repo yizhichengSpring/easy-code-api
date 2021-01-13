@@ -6,11 +6,11 @@ import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.commons.util.JdbcUtil;
 import com.yi.easycode.commons.util.PageListUtil;
+import com.yi.easycode.modules.auth.vo.SelectVO;
 import com.yi.easycode.modules.generate.dto.DatabaseDTO;
 import com.yi.easycode.modules.generate.entity.ColumnEntity;
 import com.yi.easycode.modules.generate.entity.mongodb.DBInfoMongo;
-import com.yi.easycode.modules.generate.service.ConnectionService;
-import com.yi.easycode.modules.sys.entity.ExceptionLogMongo;
+import com.yi.easycode.modules.generate.service.DataSourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,14 +30,18 @@ import java.util.List;
  **/
 @Service
 @Slf4j
-public class ConnectionServiceImpl implements ConnectionService {
+public class DataSourceServiceImpl implements DataSourceService {
 
     @Autowired
     private EasyCodeMongoTemplate mongoTemplate;
 
     @Override
     public PageResult<DBInfoMongo> getAllConnectionList(Integer pageNum, Integer pageSize) {
-        List<DBInfoMongo> dbInfoMongoList = mongoTemplate.findAll("createTime", ExceptionLogMongo.class);
+        List<DBInfoMongo> dbInfoMongoList = mongoTemplate.findAll("createTime", DBInfoMongo.class);
+        //脱敏密码
+        dbInfoMongoList.stream().forEach(x -> {
+           x.setPassword("xxxxxxxxxxxxxxx");
+        });
         PageResult<DBInfoMongo> pageResult = PageListUtil.startPage(pageNum,pageSize,dbInfoMongoList);
         return pageResult;
     }
@@ -95,5 +100,17 @@ public class ConnectionServiceImpl implements ConnectionService {
         }
     }
 
-
+    /**
+     * 目前写死，只有一个MySQL
+     * @return
+     */
+    @Override
+    public List<SelectVO> getDataSourceType() {
+        List<SelectVO> selectedList = new ArrayList<>();
+        SelectVO selectVO = new SelectVO();
+        selectVO.setSelectCode("0");
+        selectVO.setSelectValue("MySQL");
+        selectedList.add(selectVO);
+        return selectedList;
+    }
 }
