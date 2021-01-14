@@ -50,15 +50,6 @@ public class DatabaseDTO {
      * 端口号
      */
     @ApiModelProperty("数据库名称")
-    @NotNull(message = "数据库名称不能为空")
     private String databaseName;
 
-    public DatabaseDTO() {
-        this.type = "MySQL";
-        this.url = "127.0.0.1";
-        this.port = "3306";
-        this.databaseName = "yi-erp";
-        this.name = "root";
-        this.password = "passw0rd";
-    }
 }

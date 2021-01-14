@@ -50,4 +50,10 @@ public interface DataSourceService {
      * @return
      */
     List<SelectVO> getDataSourceType();
+
+    /**
+     * 获取所有schemas
+     * @return
+     */
+    List<SelectVO> getAllSchemas(DatabaseDTO dto);
 }

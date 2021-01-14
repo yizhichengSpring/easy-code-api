@@ -1,10 +1,10 @@
 package com.yi.easycode.commons.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.yi.easycode.modules.generate.dto.DatabaseDTO;
 import com.yi.easycode.modules.generate.entity.ColumnEntity;
 import com.yi.easycode.modules.generate.vo.TableVO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.jdbc.SQL;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -81,9 +81,11 @@ public class JdbcUtil {
         url.append("jdbc:mysql://")
                 .append(dto.getUrl())
                 .append(":")
-                .append(dto.getPort())
-                .append("/")
-                .append(dto.getDatabaseName());
+                .append(dto.getPort());
+
+        if (StrUtil.isNotEmpty(dto.getDatabaseName())) {
+            url.append("/").append(dto.getDatabaseName());
+        }
         log.info("database url,{}",url.toString());
         return DriverManager.getConnection(url.toString(),dto.getName(),dto.getPassword());
     }

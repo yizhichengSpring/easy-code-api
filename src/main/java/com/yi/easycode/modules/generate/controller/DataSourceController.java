@@ -37,6 +37,13 @@ public class DataSourceController {
         return Result.success(pageResult);
     }
 
+    @PostMapping("getAllSchemas")
+    @ApiOperation("获取所有schmeas")
+    public Result getAllSchemas(@Valid @RequestBody DatabaseDTO dto) {
+        List<SelectVO> selectVOS = dataSourceService.getAllSchemas(dto);
+        return Result.success(selectVOS);
+    }
+
     @GetMapping("type")
     @ApiOperation("数据源类型")
     public Result getDataSourceType() {

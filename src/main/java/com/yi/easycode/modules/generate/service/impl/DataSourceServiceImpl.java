@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,5 +113,28 @@ public class DataSourceServiceImpl implements DataSourceService {
         selectVO.setSelectValue("MySQL");
         selectedList.add(selectVO);
         return selectedList;
+    }
+
+
+    @Override
+    public List<SelectVO> getAllSchemas(DatabaseDTO dto) {
+        List<SelectVO> selectVOs = new ArrayList<>();
+       try {
+           DatabaseMetaData metaData = JdbcUtil.getMetaData(dto);
+           ResultSet schemas = metaData.getCatalogs();
+           while (schemas.next()) {
+               String tableSchema = schemas.getString("TABLE_CAT");
+               SelectVO selectVO = new SelectVO();
+               selectVO.setSelectCode(tableSchema);
+               selectVO.setSelectValue(tableSchema);
+               selectVOs.add(selectVO);
+           }
+           log.info("该MySQL连接下存在的Schemas:");
+           selectVOs.stream().forEach(x -> log.info(x.getSelectCode()));
+           return selectVOs;
+       }catch (SQLException e) {
+           log.error("error getAllSchemas {}",e);
+       }
+       return selectVOs;
     }
 }
