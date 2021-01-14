@@ -121,6 +121,9 @@ public class DataSourceServiceImpl implements DataSourceService {
         List<SelectVO> selectVOs = new ArrayList<>();
        try {
            DatabaseMetaData metaData = JdbcUtil.getMetaData(dto);
+           if (null == metaData) {
+               return selectVOs;
+           }
            ResultSet schemas = metaData.getCatalogs();
            while (schemas.next()) {
                String tableSchema = schemas.getString("TABLE_CAT");
