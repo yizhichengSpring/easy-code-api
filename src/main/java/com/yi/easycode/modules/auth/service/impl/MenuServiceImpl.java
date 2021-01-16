@@ -95,9 +95,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, MenuEntity> impleme
 
     @Override
     public Result getMenuCode() {
-        List<SelectVO> selectVOS = SelectVOUtil.initSelectVOList();
-        selectVOS.addAll(baseMapper.getMenuCodes());
-        return Result.success(selectVOS);
+        List<SelectVO> selectList = SelectVOUtil.initSelectVOList();
+        selectList.addAll(baseMapper.getMenuCodes());
+        return Result.success(selectList);
     }
 
 }

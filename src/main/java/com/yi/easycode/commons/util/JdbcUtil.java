@@ -41,16 +41,16 @@ public class JdbcUtil {
     }
 
     public static List<TableVO> getAllTablesBySchema(DatabaseMetaData metaData, String scheMa) {
-        List<TableVO> tableVOS = new ArrayList<>();
+        List<TableVO> tableList = new ArrayList<>();
         try {
             ResultSet res = metaData.getTables(scheMa,null,null,new String[]{"TABLE"});
             while (res.next()) {
-                tableVOS.add(new TableVO(res.getString("TABLE_NAME"),res.getString("REMARKS")));
+                tableList.add(new TableVO(res.getString("TABLE_NAME"),res.getString("REMARKS")));
             }
         }catch (SQLException e) {
             log.error("error exception",e);
         }
-        return tableVOS;
+        return tableList;
     }
 
     public static List<ColumnEntity> getAllTableColumnByTable(DatabaseMetaData metaData, String schemaName, String tableName) {

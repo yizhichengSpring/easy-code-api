@@ -25,6 +25,8 @@ public interface DataSourceService {
 
     /**
      * 删除数据源
+     * @param id
+     * @return
      */
     Result deleteDataSource(Long id);
 
@@ -58,6 +60,7 @@ public interface DataSourceService {
 
     /**
      * 获取所有schemas
+     * @param dto
      * @return
      */
     List<SelectVO> getAllSchemas(DatabaseDTO dto);

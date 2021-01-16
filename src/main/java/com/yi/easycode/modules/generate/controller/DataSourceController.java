@@ -38,6 +38,12 @@ public class DataSourceController {
         return Result.success(PageResult.convert(pageInfo));
     }
 
+    @ApiOperation("保存数据库连接信息")
+    @PostMapping("/save")
+    public Result saveConnection(@Valid @RequestBody DatabaseDTO dto) {
+        return dataSourceService.saveConnection(dto);
+    }
+
     @GetMapping("delete/{id}")
     @ApiOperation("删除数据源")
     public Result deleteDataSource(@PathVariable Long id) { 
@@ -47,8 +53,8 @@ public class DataSourceController {
     @PostMapping("getAllSchemas")
     @ApiOperation("获取所有schmeas")
     public Result getAllSchemas(@Valid @RequestBody DatabaseDTO dto) {
-        List<SelectVO> selectVOS = dataSourceService.getAllSchemas(dto);
-        return Result.success(selectVOS);
+        List<SelectVO> selectList = dataSourceService.getAllSchemas(dto);
+        return Result.success(selectList);
     }
 
     @GetMapping("type")
@@ -62,12 +68,6 @@ public class DataSourceController {
     @PostMapping("/test")
     public Result testConnection(@Valid @RequestBody DatabaseDTO dto){
         return dataSourceService.testConnection(dto);
-    }
-
-    @ApiOperation("保存数据库连接信息")
-    @PostMapping("/save")
-    public Result saveConnection(@Valid @RequestBody DatabaseDTO dto) {
-        return dataSourceService.saveConnection(dto);
     }
 
     @ApiOperation(("获取表属性"))

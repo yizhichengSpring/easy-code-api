@@ -129,11 +129,11 @@ public class DataSourceServiceImpl extends ServiceImpl<DBInfoMapper, DBInfoEntit
 
     @Override
     public List<SelectVO> getAllSchemas(DatabaseDTO dto) {
-        List<SelectVO> selectVOs = new ArrayList<>();
+        List<SelectVO> selectList = new ArrayList<>();
        try {
            DatabaseMetaData metaData = JdbcUtil.getMetaData(dto);
            if (null == metaData) {
-               return selectVOs;
+               return selectList;
            }
            ResultSet schemas = metaData.getCatalogs();
            while (schemas.next()) {
@@ -141,14 +141,14 @@ public class DataSourceServiceImpl extends ServiceImpl<DBInfoMapper, DBInfoEntit
                SelectVO selectVO = new SelectVO();
                selectVO.setSelectCode(tableSchema);
                selectVO.setSelectValue(tableSchema);
-               selectVOs.add(selectVO);
+               selectList.add(selectVO);
            }
            log.info("该MySQL连接下存在的Schemas:");
-           selectVOs.stream().forEach(x -> log.info(x.getSelectCode()));
-           return selectVOs;
+           selectList.stream().forEach(x -> log.info(x.getSelectCode()));
+           return selectList;
        }catch (SQLException e) {
            log.error("error getAllSchemas {}",e);
        }
-       return selectVOs;
+       return selectList;
     }
 }

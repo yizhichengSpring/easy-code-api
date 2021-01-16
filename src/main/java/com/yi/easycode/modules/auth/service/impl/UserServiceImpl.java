@@ -150,15 +150,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         wrapper.orderByDesc("user_id");
         PageHelper.startPage(pageNum,pageSize);
         List<UserEntity> userEntities = baseMapper.selectList(wrapper);
-        List<UserVO> userVOS = new ArrayList<>();
+        List<UserVO> userList = new ArrayList<>();
         userEntities.stream().forEach(x -> {
             List<String> roleIds = bindMapper.getRoleIdsByUserId(x.getUserId());
             UserVO userVO = new UserVO();
             BeanUtils.copyProperties(x,userVO);
             userVO.setRoleIds(roleIds);
-            userVOS.add(userVO);
+            userList.add(userVO);
         });
-        return new PageInfo<>(userVOS);
+        return new PageInfo<>(userList);
     }
 
     @Transactional(rollbackFor = Exception.class)

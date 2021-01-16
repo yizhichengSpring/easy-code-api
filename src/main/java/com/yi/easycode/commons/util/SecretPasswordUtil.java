@@ -23,7 +23,7 @@ public class SecretPasswordUtil {
     }
 
     /**
-     * 十六进制解密
+     * 16进制解密
      * @param secret
      * @param secretPassword
      * @return
