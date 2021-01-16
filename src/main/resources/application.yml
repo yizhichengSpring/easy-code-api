@@ -55,3 +55,11 @@ logging:
   level:
     com.chz.mapper: debug
     com.yi.easycode: debug
+
+
+# 自定义秘钥
+# customerKey 切勿随便修改，因为需要满足AES的密钥长度规则(128bit、256bit等等)，但是Java中默认只支持128bit
+# 如果想修改 https://blog.csdn.net/z69183787/article/details/82746686
+# 一个英文字符为一个byte位  一个 byte 等于 8 bit 16 byte * 8 bit = 128
+easycodeSecret:
+  easy-code-secret

@@ -55,4 +55,8 @@ public class DBInfoEntity {
      * 创建时间
      */
     private String createTime;
+    /**
+     * 是否删除
+     */
+    private Integer delFlag;
 }

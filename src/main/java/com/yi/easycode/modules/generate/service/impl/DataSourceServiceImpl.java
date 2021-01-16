@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.commons.util.JdbcUtil;
+import com.yi.easycode.commons.util.SecretPasswordUtil;
 import com.yi.easycode.modules.auth.vo.SelectVO;
 import com.yi.easycode.modules.generate.dto.DatabaseDTO;
 import com.yi.easycode.modules.generate.entity.ColumnEntity;
@@ -15,6 +16,7 @@ import com.yi.easycode.modules.generate.mapper.DBInfoMapper;
 import com.yi.easycode.modules.generate.service.DataSourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -34,6 +36,9 @@ import java.util.List;
 @Slf4j
 public class DataSourceServiceImpl extends ServiceImpl<DBInfoMapper, DBInfoEntity> implements DataSourceService {
 
+    @Value("${easycodeSecret}")
+    private String secretKey;
+    
     @Override
     public PageInfo<DBInfoEntity> getAllConnectionList(Integer pageNum, Integer pageSize) {
         QueryWrapper<DBInfoEntity> wrapper = new QueryWrapper<>();
@@ -42,6 +47,15 @@ public class DataSourceServiceImpl extends ServiceImpl<DBInfoMapper, DBInfoEntit
         PageHelper.startPage(pageNum,pageSize);
         List<DBInfoEntity> dbInfoEntities = baseMapper.selectList(wrapper);
         return new PageInfo<>(dbInfoEntities);
+    }
+
+
+    @Override
+    public Result deleteDataSource(Long id) {
+        DBInfoEntity entity = baseMapper.selectById(id);
+        entity.setDelFlag(DeleteEnums.DEL.getCode());
+        baseMapper.updateById(entity);
+        return Result.success();
     }
 
     @Override
@@ -62,6 +76,8 @@ public class DataSourceServiceImpl extends ServiceImpl<DBInfoMapper, DBInfoEntit
         if (result.isSuccess()) {
             DBInfoEntity entity = new DBInfoEntity();
             BeanUtils.copyProperties(dto, entity);
+            String secretPassword = SecretPasswordUtil.encryptHex(secretKey,entity.getPassword());
+            entity.setPassword(secretPassword);
             baseMapper.insert(entity);
             return Result.success();
         }

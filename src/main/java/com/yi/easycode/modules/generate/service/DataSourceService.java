@@ -24,6 +24,11 @@ public interface DataSourceService {
     Result testConnection(DatabaseDTO dto);
 
     /**
+     * 删除数据源
+     */
+    Result deleteDataSource(Long id);
+
+    /**
      * 保存数据库连接
      * @param dto
      * @return

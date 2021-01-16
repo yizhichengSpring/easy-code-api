@@ -38,6 +38,12 @@ public class DataSourceController {
         return Result.success(PageResult.convert(pageInfo));
     }
 
+    @GetMapping("delete/{id}")
+    @ApiOperation("删除数据源")
+    public Result deleteDataSource(@PathVariable Long id) { 
+        return dataSourceService.deleteDataSource(id);
+    }
+
     @PostMapping("getAllSchemas")
     @ApiOperation("获取所有schmeas")
     public Result getAllSchemas(@Valid @RequestBody DatabaseDTO dto) {
