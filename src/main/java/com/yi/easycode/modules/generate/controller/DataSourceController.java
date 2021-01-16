@@ -1,10 +1,11 @@
 package com.yi.easycode.modules.generate.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.auth.vo.SelectVO;
 import com.yi.easycode.modules.generate.dto.DatabaseDTO;
-import com.yi.easycode.modules.generate.entity.mongodb.DBInfoMongo;
+import com.yi.easycode.modules.generate.entity.DBInfoEntity;
 import com.yi.easycode.modules.generate.service.DataSourceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,8 +34,8 @@ public class DataSourceController {
     @GetMapping("list")
     @ApiOperation("数据源列表")
     public Result getAllConnectionList(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize) {
-        PageResult<DBInfoMongo> pageResult = dataSourceService.getAllConnectionList(pageNum, pageSize);
-        return Result.success(pageResult);
+        PageInfo<DBInfoEntity> pageInfo = dataSourceService.getAllConnectionList(pageNum, pageSize);
+        return Result.success(PageResult.convert(pageInfo));
     }
 
     @PostMapping("getAllSchemas")

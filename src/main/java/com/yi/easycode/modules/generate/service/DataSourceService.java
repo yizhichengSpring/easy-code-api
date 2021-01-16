@@ -1,10 +1,10 @@
 package com.yi.easycode.modules.generate.service;
 
-import com.yi.easycode.commons.result.PageResult;
+import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.auth.vo.SelectVO;
 import com.yi.easycode.modules.generate.dto.DatabaseDTO;
-import com.yi.easycode.modules.generate.entity.mongodb.DBInfoMongo;
+import com.yi.easycode.modules.generate.entity.DBInfoEntity;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public interface DataSourceService {
      * @param pageSize
      * @return
      */
-    PageResult<DBInfoMongo> getAllConnectionList(Integer pageNum, Integer pageSize);
+    PageInfo<DBInfoEntity> getAllConnectionList(Integer pageNum, Integer pageSize);
 
     /**
      * 获取数据源类型

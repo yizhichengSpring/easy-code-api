@@ -1,24 +1,28 @@
-package com.yi.easycode.modules.generate.entity.mongodb;
+package com.yi.easycode.modules.generate.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import lombok.EqualsAndHashCode;
 
 /**
  * @author yizhicheng
- * @ClassName DBInfo
- * @Description mongodb-存放对应用户的数据库连接
- * @Date 2020/12/27 8:22 下午
+ * @ClassName DBInfoEntity
+ * @Description 数据库信息
+ * @Date 2021/1/16 2:13 下午
  **/
-@Document(collection="dbInfo")
 @Data
-public class DBInfoMongo {
+@EqualsAndHashCode(callSuper = false)
+@TableName("t_db_info")
+@ApiModel(value="DBInfo对象", description="数据库信息表")
+public class DBInfoEntity {
     /**
      * 用户id
      */
-    @Indexed
-    private Long userId;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
     /**
      * 连接名
      */

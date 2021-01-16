@@ -1,19 +1,20 @@
 package com.yi.easycode.modules.generate.service.impl;
 
-import cn.hutool.core.date.DateUtil;
-import com.yi.easycode.commons.component.EasyCodeMongoTemplate;
-import com.yi.easycode.commons.result.PageResult;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.commons.util.JdbcUtil;
-import com.yi.easycode.commons.util.PageListUtil;
 import com.yi.easycode.modules.auth.vo.SelectVO;
 import com.yi.easycode.modules.generate.dto.DatabaseDTO;
 import com.yi.easycode.modules.generate.entity.ColumnEntity;
-import com.yi.easycode.modules.generate.entity.mongodb.DBInfoMongo;
+import com.yi.easycode.modules.generate.entity.DBInfoEntity;
+import com.yi.easycode.modules.generate.mapper.DBInfoMapper;
 import com.yi.easycode.modules.generate.service.DataSourceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -31,20 +32,16 @@ import java.util.List;
  **/
 @Service
 @Slf4j
-public class DataSourceServiceImpl implements DataSourceService {
-
-    @Autowired
-    private EasyCodeMongoTemplate mongoTemplate;
+public class DataSourceServiceImpl extends ServiceImpl<DBInfoMapper, DBInfoEntity> implements DataSourceService {
 
     @Override
-    public PageResult<DBInfoMongo> getAllConnectionList(Integer pageNum, Integer pageSize) {
-        List<DBInfoMongo> dbInfoMongoList = mongoTemplate.findAll("createTime", DBInfoMongo.class);
-        //脱敏密码
-        dbInfoMongoList.stream().forEach(x -> {
-           x.setPassword("xxxxxxxxxxxxxxx");
-        });
-        PageResult<DBInfoMongo> pageResult = PageListUtil.startPage(pageNum,pageSize,dbInfoMongoList);
-        return pageResult;
+    public PageInfo<DBInfoEntity> getAllConnectionList(Integer pageNum, Integer pageSize) {
+        QueryWrapper<DBInfoEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("del_flag", DeleteEnums.NORMAL.getCode());
+        wrapper.orderByDesc("create_time");
+        PageHelper.startPage(pageNum,pageSize);
+        List<DBInfoEntity> dbInfoEntities = baseMapper.selectList(wrapper);
+        return new PageInfo<>(dbInfoEntities);
     }
 
     @Override
@@ -63,11 +60,9 @@ public class DataSourceServiceImpl implements DataSourceService {
     public Result saveConnection(DatabaseDTO dto) {
         Result result = testConnection(dto);
         if (result.isSuccess()) {
-            //保存信息至MongoDB中
-            DBInfoMongo dbInfoMongo = new DBInfoMongo();
-            BeanUtils.copyProperties(dto, dbInfoMongo);
-            dbInfoMongo.setCreateTime(DateUtil.now());
-            mongoTemplate.save(dbInfoMongo);
+            DBInfoEntity entity = new DBInfoEntity();
+            BeanUtils.copyProperties(dto, entity);
+            baseMapper.insert(entity);
             return Result.success();
         }
         return Result.fail("保存数据库连接失败");

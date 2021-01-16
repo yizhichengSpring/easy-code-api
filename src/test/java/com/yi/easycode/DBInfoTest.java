@@ -1,6 +1,7 @@
 package com.yi.easycode;
 
-import com.yi.easycode.modules.generate.entity.mongodb.DBInfoMongo;
+import com.yi.easycode.modules.generate.entity.DBInfoEntity;
+import com.yi.easycode.modules.generate.mapper.DBInfoMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,13 @@ public class DBInfoTest {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+    @Autowired
+    private DBInfoMapper dbInfoMapper;
 
 
     @Test
     public void save() {
-        DBInfoMongo dbInfo = new DBInfoMongo();
-        dbInfo.setUserId(4L);
+        DBInfoEntity dbInfo = new DBInfoEntity();
         dbInfo.setConnectionName("连接3");
         dbInfo.setType("MYSQL");
         dbInfo.setUrl("127.0.0.1");
@@ -34,7 +36,7 @@ public class DBInfoTest {
         dbInfo.setName("root");
         dbInfo.setPassword("passw0rd");
         dbInfo.setDatabaseName("easy-code");
-        mongoTemplate.save(dbInfo);
+        dbInfoMapper.insert(dbInfo);
 
     }
 
