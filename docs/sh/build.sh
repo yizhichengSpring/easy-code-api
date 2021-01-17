@@ -11,5 +11,6 @@ docker build -t easy-code/easy-code:v1 .
 sleep 12
 echo 'docker run --name=easy-code -d -p 8181:8181 -e TZ=Asia/Shanghai easy-code/easy-code:v1'
 docker run --name=easy-code -d -p 8181:8181 -e TZ=Asia/Shanghai easy-code/easy-code:v1
-
-echo 'success'
+echo 'build success'
+echo 'show logs'
+docker logs -f -t --tail 100 easy-code
