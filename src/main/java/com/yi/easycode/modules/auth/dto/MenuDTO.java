@@ -3,6 +3,7 @@ package com.yi.easycode.modules.auth.dto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author yizhicheng
@@ -17,7 +18,7 @@ public class MenuDTO {
     /**
      * 父类id 一级目录统一为0，二级目录的parentId为一级的主键
      */
-    @NotBlank(message="上级菜单不能为空")
+    @NotNull(message="上级菜单不能为空")
     private Integer menuParentId;
     /**
      * 是否为目录 目录为0级/其余为1级

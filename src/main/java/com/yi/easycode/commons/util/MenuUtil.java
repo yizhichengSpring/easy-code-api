@@ -29,10 +29,13 @@ public class MenuUtil {
             treeNode.setName(x.getMenuName());
             treeNode.setWeight(x.getMenuSort());
             Map<String, Object> columns = new HashMap<>(16);
+            columns.put("menuName",x.getMenuName());
             columns.put("menuLevel",x.getMenuLevel());
             columns.put("menuUrl",x.getMenuUrl());
             columns.put("menuIcon",x.getMenuIcon());
             columns.put("menuDescribe",x.getMenuDescribe());
+            columns.put("menuParentId",String.valueOf(x.getMenuParentId()));
+            columns.put("menuSort",x.getMenuSort());
             treeNode.setExtra(columns);
             nodeList.add(treeNode);
         });
