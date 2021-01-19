@@ -35,21 +35,6 @@ jwt:
 login:
   salt: passw0rd
 
-#白名单 给拦截器使用(登录、注册接口、接口文档、druid等)
-ignore:
-  urls:
-    - /user/login
-    - /user/register
-    - /doc.html
-    - /swagger-ui.html
-    - /swagger-resources/**
-    - /swagger/**
-    - /v2/api-docs
-    - /webjars/**
-    - /favicon.ico
-    - /actuator/**
-    - /druid/**
-
 # 日志
 logging:
   level:
