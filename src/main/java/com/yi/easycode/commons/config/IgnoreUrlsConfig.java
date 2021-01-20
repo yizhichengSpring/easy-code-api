@@ -30,8 +30,6 @@ public class IgnoreUrlsConfig {
                 .selectList(null)
                 .stream().map(x -> x.getUrl())
                 .collect(Collectors.toList());
-        log.info("接口白名单如下");
-        whiteUrls.stream().forEach(x -> log.info(x));
         return whiteUrls;
     }
 

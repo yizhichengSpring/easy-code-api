@@ -24,7 +24,10 @@ public class EasyCodeBean implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        log.info("接口白名单如下");
+        whiteUrls.stream().forEach(x -> log.info(x));
         registry.addInterceptor(jwtInterceptor())
+                .addPathPatterns("/**")
                 .excludePathPatterns(whiteUrls);
     }
 
