@@ -17,7 +17,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 设置允许跨域的路由
         registry.addMapping("/**")
                 // 设置允许跨域请求的域名
-                .allowedOriginPatterns("*")
+                .allowedOrigins("*")
                 // 是否允许证书（cookies）
                 .allowCredentials(true)
                 // 设置允许的方法
