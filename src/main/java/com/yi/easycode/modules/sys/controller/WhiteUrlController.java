@@ -36,6 +36,12 @@ public class WhiteUrlController {
         PageInfo<WhiteUrlEntity> pageInfo = whiteUrlService.getWhiteUrlList(pageNum,pageSize);
         return Result.success(PageResult.convert(pageInfo));
     }
+    
+    @ApiOperation("获取请求方法类型")
+    @PostMapping("/requestMethod")
+    public Result getRequestMethod() { 
+        return whiteUrlService.getRequestMethod();
+    }
 
     @ApiOperation("添加")
     @PostMapping(value = "add")

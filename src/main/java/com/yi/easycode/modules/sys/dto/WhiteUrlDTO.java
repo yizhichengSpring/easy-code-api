@@ -26,6 +26,12 @@ public class WhiteUrlDTO implements Serializable {
     private String url;
 
     /**
+     * 请求类型
+     */
+    @NotBlank(message = "method不能为空")
+    private String method;
+
+    /**
      * 备注
      */
     private String remark;

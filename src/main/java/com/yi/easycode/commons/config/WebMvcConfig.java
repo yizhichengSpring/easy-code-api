@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * @author yizhicheng
  * @ClassName WebMvcConfig
- * @Description 跨域配置
+ * @Description 拦截器配置
  * @Date 2021/1/12 5:11 下午
  **/
 @Configuration

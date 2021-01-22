@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.exception.ApiException;
 import com.yi.easycode.commons.result.Result;
+import com.yi.easycode.modules.auth.vo.SelectVO;
 import com.yi.easycode.modules.sys.dto.WhiteUrlDTO;
 import com.yi.easycode.modules.sys.entity.WhiteUrlEntity;
 import com.yi.easycode.modules.sys.mapper.WhiteUrlMapper;
@@ -14,7 +15,9 @@ import com.yi.easycode.modules.sys.service.WhiteUrlService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +30,6 @@ import java.util.List;
  */
 @Service
 public class WhiteUrlServiceImpl extends ServiceImpl<WhiteUrlMapper, WhiteUrlEntity> implements WhiteUrlService {
-
 
     @Override
     public PageInfo<WhiteUrlEntity> getWhiteUrlList(Integer pageNum, Integer pageSize) {
@@ -70,5 +72,16 @@ public class WhiteUrlServiceImpl extends ServiceImpl<WhiteUrlMapper, WhiteUrlEnt
         whiteUrlEntity.setDelFlag(DeleteEnums.DEL.getCode());
         baseMapper.updateById(whiteUrlEntity);
         return Result.success();
+    }
+
+
+    @Override
+    public Result getRequestMethod() {
+        List<SelectVO> selectVOList = new ArrayList<>();
+        for (RequestMethod requestMethod : RequestMethod.values()) {
+            SelectVO selectVO = new SelectVO(requestMethod.name(),requestMethod.name());
+            selectVOList.add(selectVO);
+        }
+        return Result.success(selectVOList);
     }
 }

@@ -44,4 +44,10 @@ public interface WhiteUrlService extends IService<WhiteUrlEntity> {
      * @return
      */
     Result deleteWhiteUrl(Long id);
+
+    /**
+     * 获取请求方法
+     * @return
+     */
+    Result getRequestMethod();
 }

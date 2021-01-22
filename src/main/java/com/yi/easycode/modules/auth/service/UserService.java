@@ -3,6 +3,7 @@ package com.yi.easycode.modules.auth.service;
 import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.auth.dto.BindUserRoleDTO;
+import com.yi.easycode.modules.auth.dto.LoginDTO;
 import com.yi.easycode.modules.auth.dto.UserDTO;
 import com.yi.easycode.modules.auth.entity.UserEntity;
 import com.yi.easycode.modules.auth.vo.UserVO;
@@ -25,11 +26,11 @@ public interface UserService {
     UserVO register(UserDTO userDTO);
 
     /**
-     * 登录
-     * @param userDTO
+     * 登录接口
+     * @param loginDTO
      * @return
      */
-    Result login(UserDTO userDTO);
+    Result login(LoginDTO loginDTO);
 
     /**
      * 注销登录

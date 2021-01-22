@@ -1,7 +1,6 @@
 package com.yi.easycode.modules.auth.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -15,8 +14,8 @@ import com.yi.easycode.commons.exception.ApiException;
 import com.yi.easycode.commons.result.FailInfo;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.commons.util.JwtUtil;
-import com.yi.easycode.commons.util.MenuUtil;
 import com.yi.easycode.modules.auth.dto.BindUserRoleDTO;
+import com.yi.easycode.modules.auth.dto.LoginDTO;
 import com.yi.easycode.modules.auth.dto.UserDTO;
 import com.yi.easycode.modules.auth.entity.MenuEntity;
 import com.yi.easycode.modules.auth.entity.RoleEntity;
@@ -90,19 +89,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @LoginLog
-    @Transactional(rollbackFor = Exception.class)
     @Override
-    public Result login(UserDTO userDTO) {
-        String userName = userDTO.getUserName();
+    public Result login(LoginDTO loginDTO) {
         QueryWrapper<UserEntity> userwrapper = new QueryWrapper<>();
-        userwrapper.eq("user_name",userName);
+        userwrapper.eq("user_name",loginDTO.getUserName());
         UserEntity tmpUserEntity = baseMapper.selectOne(userwrapper);
         if (null == tmpUserEntity) {
             return Result.fail(FailInfo.FAIL_USER_NOTFOUND);
         }
-        String md5Password = SecureUtil.md5(userDTO.getPassword()+salt);
+        String md5Password = SecureUtil.md5(loginDTO.getPassword()+salt);
         QueryWrapper<UserEntity> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_name",userName).
+        wrapper.eq("user_name",loginDTO.getUserName()).
                 eq("password",md5Password);
         UserEntity userEntity = baseMapper.selectOne(wrapper);
         if (null == userEntity) {
@@ -214,7 +211,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
                         .map(MenuEntity::getMenuName)
                         .collect(Collectors.toList());
         data.put("menus",menuNames);
-        data.put("avatar","http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg.jpg");
+        data.put("avatar",userEntity.getFace());
         return Result.success(data);
     }
     

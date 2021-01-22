@@ -36,6 +36,9 @@ public class UserEntity implements Serializable {
     @ApiModelProperty(value = "用户密码")
     private String password;
 
+    @ApiModelProperty(value = "头像")
+    private String face;
+
     @ApiModelProperty(value = "用户手机号")
     private String mobile;
 

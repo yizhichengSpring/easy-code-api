@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.auth.dto.BindUserRoleDTO;
+import com.yi.easycode.modules.auth.dto.LoginDTO;
 import com.yi.easycode.modules.auth.dto.UserDTO;
 import com.yi.easycode.modules.auth.entity.UserEntity;
 import com.yi.easycode.modules.auth.service.UserService;
@@ -34,8 +35,8 @@ public class UserController {
 
     @ApiOperation("登录")
     @PostMapping(value = "login")
-    public Result login(@RequestBody @Valid UserDTO userDTO) {
-       return userService.login(userDTO);
+    public Result login(@RequestBody @Valid LoginDTO loginDTO) {
+       return userService.login(loginDTO);
     }
 
     @ApiOperation("注册")

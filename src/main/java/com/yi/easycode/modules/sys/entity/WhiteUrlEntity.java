@@ -33,6 +33,9 @@ public class WhiteUrlEntity implements Serializable {
     @ApiModelProperty(value = "白名单地址")
     private String url;
 
+    @ApiModelProperty(value = "请求方式")
+    private String method;
+
     @ApiModelProperty(value = "备注")
     private String remark;
 
@@ -50,10 +53,11 @@ public class WhiteUrlEntity implements Serializable {
         return "WhiteUrlEntity{" +
                 "id=" + id +
                 ", url='" + url + '\'' +
+                ", method='" + method + '\'' +
                 ", remark='" + remark + '\'' +
                 ", delFlag=" + delFlag +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
                 '}';
     }
 }

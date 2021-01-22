@@ -4,7 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONUtil;
 import com.yi.easycode.commons.component.EasyCodeMongoTemplate;
 import com.yi.easycode.commons.result.Result;
-import com.yi.easycode.modules.auth.dto.UserDTO;
+import com.yi.easycode.modules.auth.dto.LoginDTO;
 import com.yi.easycode.modules.auth.entity.mongodb.LoginLogMongo;
 import com.yi.easycode.modules.sys.entity.ExceptionLogMongo;
 import lombok.extern.slf4j.Slf4j;
@@ -55,14 +55,14 @@ public class LogAspect {
         /**
          * 获取登录接口的参数
          */
-        UserDTO userDTO = (UserDTO)joinPoint.getArgs()[0];
+        LoginDTO loginDTO = (LoginDTO)joinPoint.getArgs()[0];
         /**
          * 获取request
          */
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         Result result = (Result)joinPoint.proceed();
         LoginLogMongo logMongo = new LoginLogMongo();
-        logMongo.setUserName(userDTO.getUserName());
+        logMongo.setUserName(loginDTO.getUserName());
         // 获取发出请求的客户端的IP地址
         logMongo.setAddresss(request.getRemoteAddr());
         // 获取发出请求的客户端的主机名
