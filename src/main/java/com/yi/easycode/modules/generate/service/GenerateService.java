@@ -1,7 +1,10 @@
 package com.yi.easycode.modules.generate.service;
 
 import com.yi.easycode.commons.result.Result;
+import com.yi.easycode.modules.auth.vo.SelectVO;
 import com.yi.easycode.modules.generate.dto.GenerateDTO;
+
+import java.util.List;
 
 /**
  * @author yizhicheng
@@ -22,4 +25,11 @@ public interface GenerateService {
      * @return
      */
     Result datasourceList();
+
+    /**
+     * 获取相应数据源下的schema
+     * @param id
+     * @return
+     */
+    List<SelectVO> getSchemaByDataSource(Long id);
 }

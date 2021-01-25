@@ -40,10 +40,11 @@ public class JdbcUtil {
       return null;
     }
 
-    public static List<TableVO> getAllTablesBySchema(DatabaseMetaData metaData, String scheMa) {
+    public static List<TableVO> getAllTablesBySchema(DatabaseDTO dto) {
+        DatabaseMetaData metaData = getMetaData(dto);
         List<TableVO> tableList = new ArrayList<>();
         try {
-            ResultSet res = metaData.getTables(scheMa,null,null,new String[]{"TABLE"});
+            ResultSet res = metaData.getTables(dto.getDatabaseName(),null,null,new String[]{"TABLE"});
             while (res.next()) {
                 tableList.add(new TableVO(res.getString("TABLE_NAME"),res.getString("REMARKS")));
             }

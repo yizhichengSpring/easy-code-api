@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.result.Result;
+import com.yi.easycode.commons.util.DataSourceUtil;
 import com.yi.easycode.commons.util.JdbcUtil;
 import com.yi.easycode.commons.util.SecretPasswordUtil;
 import com.yi.easycode.modules.auth.vo.SelectVO;
@@ -129,26 +130,6 @@ public class DataSourceServiceImpl extends ServiceImpl<DBInfoMapper, DBInfoEntit
 
     @Override
     public List<SelectVO> getAllSchemas(DatabaseDTO dto) {
-        List<SelectVO> selectList = new ArrayList<>();
-       try {
-           DatabaseMetaData metaData = JdbcUtil.getMetaData(dto);
-           if (null == metaData) {
-               return selectList;
-           }
-           ResultSet schemas = metaData.getCatalogs();
-           while (schemas.next()) {
-               String tableSchema = schemas.getString("TABLE_CAT");
-               SelectVO selectVO = new SelectVO();
-               selectVO.setSelectCode(tableSchema);
-               selectVO.setSelectValue(tableSchema);
-               selectList.add(selectVO);
-           }
-           log.info("该MySQL连接下存在的Schemas:");
-           selectList.stream().forEach(x -> log.info(x.getSelectCode()));
-           return selectList;
-       }catch (SQLException e) {
-           log.error("error getAllSchemas {}",e);
-       }
-       return selectList;
+        return DataSourceUtil.getShemas(dto);
     }
 }

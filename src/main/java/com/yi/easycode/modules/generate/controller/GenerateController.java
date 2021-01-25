@@ -1,14 +1,18 @@
 package com.yi.easycode.modules.generate.controller;
 
 import com.yi.easycode.commons.result.Result;
+import com.yi.easycode.modules.auth.vo.SelectVO;
+import com.yi.easycode.modules.generate.dto.DatabaseDTO;
 import com.yi.easycode.modules.generate.dto.GenerateDTO;
 import com.yi.easycode.modules.generate.service.GenerateService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author yizhicheng
@@ -30,9 +34,16 @@ public class GenerateController {
         return generateService.generateCode(generateDTO);
     }
 
-    @PostMapping("/datasourceList")
+    @GetMapping("/datasourceList")
     public Result datasourceList() {
         return generateService.datasourceList();
+    }
+
+    @PostMapping("getSchemaByDataSource/{id}")
+    @ApiOperation("获取所有schmeas")
+    public Result getSchemaByDataSource(@PathVariable Long id) {
+        List<SelectVO> selectList = generateService.getSchemaByDataSource(id);
+        return Result.success(selectList);
     }
 
 }

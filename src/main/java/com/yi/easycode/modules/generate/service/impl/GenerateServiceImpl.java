@@ -4,10 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.result.Result;
-import com.yi.easycode.commons.util.ConfigurationUtil;
-import com.yi.easycode.commons.util.GenerateUtil;
-import com.yi.easycode.commons.util.JdbcUtil;
-import com.yi.easycode.commons.util.WordUtil;
+import com.yi.easycode.commons.util.*;
 import com.yi.easycode.modules.auth.vo.SelectVO;
 import com.yi.easycode.modules.generate.dto.DatabaseDTO;
 import com.yi.easycode.modules.generate.dto.GenerateDTO;
@@ -57,6 +54,17 @@ public class GenerateServiceImpl implements GenerateService {
             selectvoList.add(selectvo);
         });
         return Result.success(selectvoList);
+    }
+
+    @Override
+    public List<SelectVO> getSchemaByDataSource(Long id) {
+        QueryWrapper<DBInfoEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("del_flag", DeleteEnums.NORMAL.getCode());
+        wrapper.eq("id",id);
+        DBInfoEntity dbInfo = dbInfoMapper.selectOne(wrapper);
+        DatabaseDTO dbDTO = new DatabaseDTO();
+        BeanUtils.copyProperties(dbInfo, dbDTO);
+        return DataSourceUtil.getAllTablesBySchema(dbDTO);
     }
 
     @Override
