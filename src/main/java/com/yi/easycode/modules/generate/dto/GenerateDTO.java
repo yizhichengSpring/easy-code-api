@@ -11,6 +11,10 @@ import lombok.Data;
 @Data
 public class GenerateDTO {
     /**
+     * 数据源
+     */
+    private Integer dataSourceId;
+    /**
      * 包名
      */
     private String packageName;
@@ -38,10 +42,6 @@ public class GenerateDTO {
      * 是否开启序列化
      */
     private Boolean openSerializable;
-    /**
-     * 数据库名称
-     */
-    private String databaseName;
     /**
      * 表名称
      */

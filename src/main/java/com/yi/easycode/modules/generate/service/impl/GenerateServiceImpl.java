@@ -1,15 +1,20 @@
 package com.yi.easycode.modules.generate.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.yi.easycode.commons.enums.DeleteEnums;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.commons.util.ConfigurationUtil;
 import com.yi.easycode.commons.util.GenerateUtil;
 import com.yi.easycode.commons.util.JdbcUtil;
 import com.yi.easycode.commons.util.WordUtil;
+import com.yi.easycode.modules.auth.vo.SelectVO;
 import com.yi.easycode.modules.generate.dto.DatabaseDTO;
 import com.yi.easycode.modules.generate.dto.GenerateDTO;
 import com.yi.easycode.modules.generate.entity.ColumnEntity;
+import com.yi.easycode.modules.generate.entity.DBInfoEntity;
 import com.yi.easycode.modules.generate.entity.GenerateEntity;
+import com.yi.easycode.modules.generate.mapper.DBInfoMapper;
 import com.yi.easycode.modules.generate.service.GenerateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -35,6 +40,25 @@ import java.util.Map;
 public class GenerateServiceImpl implements GenerateService {
     @Autowired
     private ConfigurationUtil configurationUtil;
+    @Autowired
+    private DBInfoMapper dbInfoMapper;
+
+    @Override
+    public Result datasourceList() {
+        QueryWrapper<DBInfoEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("del_flag", DeleteEnums.NORMAL.getCode());
+        wrapper.orderByDesc("create_time");
+        List<DBInfoEntity> dbInfoEntities = dbInfoMapper.selectList(wrapper);
+        List<SelectVO> selectvoList = new ArrayList<>();
+        dbInfoEntities.stream().forEach( x -> {
+            SelectVO selectvo = new SelectVO();
+            selectvo.setSelectCode(x.getId().toString());
+            selectvo.setSelectValue(x.getConnectionName());
+            selectvoList.add(selectvo);
+        });
+        return Result.success(selectvoList);
+    }
+
     @Override
     public Result generateCode(GenerateDTO generateDTO) {
         List<Map<String, Object>> datas = generateData(generateDTO);

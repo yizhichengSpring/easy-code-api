@@ -30,5 +30,9 @@ public class GenerateController {
         return generateService.generateCode(generateDTO);
     }
 
+    @PostMapping("/datasourceList")
+    public Result datasourceList() {
+        return generateService.datasourceList();
+    }
 
 }

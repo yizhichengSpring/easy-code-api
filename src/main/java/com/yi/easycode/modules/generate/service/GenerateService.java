@@ -16,4 +16,10 @@ public interface GenerateService {
      * @return
      */
     Result generateCode(GenerateDTO generateDTO);
+
+    /**
+     * 获取数据源列表
+     * @return
+     */
+    Result datasourceList();
 }
