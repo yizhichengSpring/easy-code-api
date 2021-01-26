@@ -2,7 +2,6 @@ package com.yi.easycode.modules.generate.controller;
 
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.auth.vo.SelectVO;
-import com.yi.easycode.modules.generate.dto.DatabaseDTO;
 import com.yi.easycode.modules.generate.dto.GenerateDTO;
 import com.yi.easycode.modules.generate.service.GenerateService;
 import io.swagger.annotations.Api;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**

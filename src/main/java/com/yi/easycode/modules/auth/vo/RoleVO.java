@@ -1,6 +1,5 @@
 package com.yi.easycode.modules.auth.vo;
 
-import cn.hutool.core.lang.tree.Tree;
 import com.yi.easycode.modules.auth.entity.MenuEntity;
 import lombok.Data;
 

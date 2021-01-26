@@ -102,7 +102,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
     @Override
     public Result deleteRoleEntity(Long id) {
         RoleEntity entity = baseMapper.selectById(id);
-        entity.setDelFlag(DeleteEnums.DEL.getCode().intValue());
+        entity.setDelFlag(DeleteEnums.DEL.getCode());
         baseMapper.updateById(entity);
         return Result.success();
     }

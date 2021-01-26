@@ -1,12 +1,7 @@
 package com.yi.easycode.modules.generate.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.yi.easycode.modules.auth.entity.MenuEntity;
-import com.yi.easycode.modules.auth.vo.SelectVO;
 import com.yi.easycode.modules.generate.entity.DBInfoEntity;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * <p>

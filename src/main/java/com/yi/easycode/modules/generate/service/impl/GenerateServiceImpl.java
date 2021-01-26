@@ -197,15 +197,4 @@ public class GenerateServiceImpl implements GenerateService {
         int strLen;
         return str != null && (strLen = str.length()) != 0 ? (new StringBuilder(strLen)).append(Character.toLowerCase(str.charAt(0))).append(str.substring(1)).toString() : str;
     }
-
-    /**
-     * 释放连接
-     * @param conn
-     * @throws SQLException
-     */
-    private void closeConnection(Connection conn) throws SQLException{
-        if (null != conn) {
-            conn.close();
-        }
-    }
 }
