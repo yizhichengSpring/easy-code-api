@@ -39,7 +39,7 @@ public class GenerateController {
         return generateService.datasourceList();
     }
 
-    @PostMapping("getSchemaByDataSource/{id}")
+    @GetMapping("getSchemaByDataSource/{id}")
     @ApiOperation("获取所有schmeas")
     public Result getSchemaByDataSource(@PathVariable Long id) {
         List<SelectVO> selectList = generateService.getSchemaByDataSource(id);
