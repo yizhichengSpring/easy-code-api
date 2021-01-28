@@ -28,11 +28,13 @@ public class GenerateController {
     private GenerateService generateService;
 
     @PostMapping("/code")
+    @ApiOperation("生成代码")
     public Result generateCode(GenerateDTO generateDTO) {
         return generateService.generateCode(generateDTO);
     }
 
     @GetMapping("/datasourceList")
+    @ApiOperation("获取数据源列表")
     public Result datasourceList() {
         return generateService.datasourceList();
     }

@@ -16,6 +16,7 @@ import com.yi.easycode.modules.generate.service.GenerateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -39,6 +40,8 @@ public class GenerateServiceImpl implements GenerateService {
     private ConfigurationUtil configurationUtil;
     @Autowired
     private DBInfoMapper dbInfoMapper;
+    @Value("${easycodeSecret}")
+    private String easycodeSecret;
 
     @Override
     public Result datasourceList() {
@@ -62,6 +65,8 @@ public class GenerateServiceImpl implements GenerateService {
         wrapper.eq("del_flag", DeleteEnums.NORMAL.getCode());
         wrapper.eq("id",id);
         DBInfoEntity dbInfo = dbInfoMapper.selectOne(wrapper);
+        String pwd = SecretPasswordUtil.decryptStr(easycodeSecret,dbInfo.getPassword());
+        dbInfo.setPassword(pwd);
         DatabaseDTO dbDTO = new DatabaseDTO();
         BeanUtils.copyProperties(dbInfo, dbDTO);
         return DataSourceUtil.getAllTablesBySchema(dbDTO);
