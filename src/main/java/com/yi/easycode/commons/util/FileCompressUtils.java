@@ -30,6 +30,8 @@ public class FileCompressUtils {
         zipFileName = new String(zipFileName.getBytes(), StandardCharsets.UTF_8);
         // inline在浏览器中直接显示，不提示用户下载,attachment弹出对话框，提示用户进行下载保存本地,默认为inline方式
         response.reset();
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         response.setHeader("Content-Disposition", "attachment; filename=\"code.zip\"");
         response.setContentType("application/octet-stream; charset=UTF-8");
         response.addHeader("Content-Length", "" + BUFFER_SIZE);
