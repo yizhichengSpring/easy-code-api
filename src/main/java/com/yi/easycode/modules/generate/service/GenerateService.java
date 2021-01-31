@@ -32,4 +32,10 @@ public interface GenerateService {
      * @return
      */
     List<SelectVO> getSchemaByDataSource(Long id);
+
+    /**
+     * 生成记录
+     * @return
+     */
+    Result generateList(Integer pageNum, Integer pageSize);
 }

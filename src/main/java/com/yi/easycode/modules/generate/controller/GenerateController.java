@@ -2,6 +2,7 @@ package com.yi.easycode.modules.generate.controller;
 
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.auth.vo.SelectVO;
+import com.yi.easycode.modules.generate.dto.BaseDTO;
 import com.yi.easycode.modules.generate.dto.GenerateDTO;
 import com.yi.easycode.modules.generate.service.GenerateService;
 import io.swagger.annotations.Api;
@@ -26,6 +27,12 @@ public class GenerateController {
 
     @Autowired
     private GenerateService generateService;
+
+    @PostMapping("/list")
+    @ApiOperation("生成记录")
+    public Result generateList(@RequestBody BaseDTO dto) {
+        return generateService.generateList(dto.getPageNum(), dto.getPageSize());
+    }
 
     @PostMapping("/code")
     @ApiOperation("生成代码")

@@ -6,7 +6,7 @@ import com.yi.easycode.commons.component.EasyCodeMongoTemplate;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.auth.dto.LoginDTO;
 import com.yi.easycode.modules.auth.entity.mongodb.LoginLogMongo;
-import com.yi.easycode.modules.sys.entity.ExceptionLogMongo;
+import com.yi.easycode.modules.sys.entity.mongodb.ExceptionLogMongo;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;

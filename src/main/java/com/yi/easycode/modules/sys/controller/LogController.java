@@ -3,7 +3,7 @@ package com.yi.easycode.modules.sys.controller;
 import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.auth.entity.mongodb.LoginLogMongo;
-import com.yi.easycode.modules.sys.entity.ExceptionLogMongo;
+import com.yi.easycode.modules.sys.entity.mongodb.ExceptionLogMongo;
 import com.yi.easycode.modules.sys.service.LogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

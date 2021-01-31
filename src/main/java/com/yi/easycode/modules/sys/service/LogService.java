@@ -2,7 +2,7 @@ package com.yi.easycode.modules.sys.service;
 
 import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.modules.auth.entity.mongodb.LoginLogMongo;
-import com.yi.easycode.modules.sys.entity.ExceptionLogMongo;
+import com.yi.easycode.modules.sys.entity.mongodb.ExceptionLogMongo;
 
 /**
  * @author yizhicheng

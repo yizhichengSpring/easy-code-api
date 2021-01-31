@@ -2,7 +2,9 @@ package com.yi.easycode.modules.generate.service.impl;
 
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.yi.easycode.commons.component.EasyCodeMongoTemplate;
 import com.yi.easycode.commons.enums.DeleteEnums;
+import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.commons.util.*;
 import com.yi.easycode.modules.auth.vo.SelectVO;
@@ -11,6 +13,7 @@ import com.yi.easycode.modules.generate.dto.GenerateDTO;
 import com.yi.easycode.modules.generate.entity.ColumnEntity;
 import com.yi.easycode.modules.generate.entity.DBInfoEntity;
 import com.yi.easycode.modules.generate.entity.GenerateEntity;
+import com.yi.easycode.modules.generate.entity.mongodb.GenerateLogMongo;
 import com.yi.easycode.modules.generate.mapper.DBInfoMapper;
 import com.yi.easycode.modules.generate.service.GenerateService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +43,19 @@ public class GenerateServiceImpl implements GenerateService {
     private ConfigurationUtil configurationUtil;
     @Autowired
     private DBInfoMapper dbInfoMapper;
+    @Autowired
+    private EasyCodeMongoTemplate mongoTemplate;
     @Value("${easycodeSecret}")
     private String easycodeSecret;
+
+
+
+    @Override
+    public Result generateList(Integer pageNum, Integer pageSize) {
+        List<GenerateLogMongo> generateLogMongoList = mongoTemplate.findAll("generateTime",GenerateLogMongo.class);
+        PageResult<GenerateLogMongo> pageResult = PageListUtil.startPage(pageNum,pageSize,generateLogMongoList);
+        return Result.success(pageResult);
+    }
 
     @Override
     public Result datasourceList() {

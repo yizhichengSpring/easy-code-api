@@ -4,7 +4,7 @@ import com.yi.easycode.commons.component.EasyCodeMongoTemplate;
 import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.util.PageListUtil;
 import com.yi.easycode.modules.auth.entity.mongodb.LoginLogMongo;
-import com.yi.easycode.modules.sys.entity.ExceptionLogMongo;
+import com.yi.easycode.modules.sys.entity.mongodb.ExceptionLogMongo;
 import com.yi.easycode.modules.sys.service.LogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

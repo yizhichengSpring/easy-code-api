@@ -1,4 +1,4 @@
-package com.yi.easycode.modules.sys.entity;
+package com.yi.easycode.modules.sys.entity.mongodb;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
