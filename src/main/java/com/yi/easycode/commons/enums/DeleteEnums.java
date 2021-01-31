@@ -7,6 +7,7 @@ package com.yi.easycode.commons.enums;
  * @Date 2020/10/22 9:55 AM
  **/
 public enum  DeleteEnums {
+
     /**
      * 逻辑删除:0 正常
      */

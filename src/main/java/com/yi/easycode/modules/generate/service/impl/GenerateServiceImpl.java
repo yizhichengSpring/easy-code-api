@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yi.easycode.commons.component.EasyCodeMongoTemplate;
 import com.yi.easycode.commons.enums.DeleteEnums;
+import com.yi.easycode.commons.exception.ApiException;
 import com.yi.easycode.commons.result.PageResult;
 import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.commons.util.*;
@@ -95,16 +96,24 @@ public class GenerateServiceImpl implements GenerateService {
 
 
     private List<Map<String, Object>> generateData(GenerateDTO generateDTO) {
+        DBInfoEntity entity = dbInfoMapper.selectById(generateDTO.getDataSourceId());
+        if (null == entity) {
+            throw new ApiException("该数据源不存在");
+        }
+        DatabaseDTO dto = new DatabaseDTO();
+        String pwd = SecretPasswordUtil.decryptStr(easycodeSecret,entity.getPassword());
+        entity.setPassword(pwd);
+        BeanUtils.copyProperties(entity, dto);
         List<Map<String, Object>> datas = new ArrayList<>();
-        datas.add(generateEntityData(generateDTO));
-        datas.add(generateServiceData(generateDTO));
-        datas.add(generateServiceImplData(generateDTO));
-        datas.add(generateControllerData(generateDTO));
+        datas.add(generateEntityData(dto,generateDTO));
+        datas.add(generateServiceData(dto,generateDTO));
+        datas.add(generateServiceImplData(dto,generateDTO));
+        datas.add(generateControllerData(dto,generateDTO));
         return datas;
     }
 
-    private Map<String, Object> generateEntityData(GenerateDTO generateDTO) {
-        DatabaseDTO dto = new DatabaseDTO();
+    private Map<String, Object> generateEntityData(DatabaseDTO dto,GenerateDTO generateDTO) {
+
         Connection connection = null;
         try {
             connection = JdbcUtil.getConn(dto);
@@ -116,14 +125,8 @@ public class GenerateServiceImpl implements GenerateService {
         GenerateEntity generateEntity = new GenerateEntity();
         BeanUtils.copyProperties(generateDTO,generateEntity);
         Map<String, Object> root = new HashMap<>(16);
-        generateEntity.setPackageName("com.yi.easycode.modules.entity");
-        generateEntity.setOpenLombok(true);
-        generateEntity.setOpenSwagger(true);
-        generateEntity.setOpenSerializable(true);
-        generateEntity.setAuther("yizhicheng");
-        generateEntity.setDescription("此类用于测试第一个代码生成器");
-        generateEntity.setClassName(convertUnderlineColumnToJavaColumn(generateEntity.getTableName()));
-        generateEntity.setTableName(convertUnderlineColumnToJavaColumn(generateEntity.getTableName()));
+        generateEntity.setClassName(convertUnderlineColumnToJavaColumn(generateDTO.getTableName()));
+        generateEntity.setTableName(convertUnderlineColumnToJavaColumn(generateDTO.getTableName()));
         generateEntity.setCreateDate(DateUtil.now());
         for (ColumnEntity columnEntity:columnEntities) {
             columnEntity.setColumnType(configurationUtil.getValue(columnEntity.getColumnType().toLowerCase()));
@@ -134,21 +137,15 @@ public class GenerateServiceImpl implements GenerateService {
         root.put("entity", generateEntity);
         root.put("templateName","entity.ftl");
         root.put("className",generateEntity.getClassName());
-        root.put("packageName",generateEntity.getPackageName());
+        root.put("packageName",generateDTO.getPackageName());
         return root;
     }
 
 
-    private Map<String, Object> generateServiceData(GenerateDTO generateDTO) {
+    private Map<String, Object> generateServiceData(DatabaseDTO dto,GenerateDTO generateDTO) {
         GenerateEntity generateService = new GenerateEntity();
         BeanUtils.copyProperties(generateDTO,generateService);
         Map<String, Object> root = new HashMap<>(16);
-        generateService.setPackageName("com.yi.easycode.modules.service");
-        generateService.setOpenLombok(true);
-        generateService.setOpenSwagger(true);
-        generateService.setOpenSerializable(true);
-        generateService.setAuther("yizhicheng");
-        generateService.setDescription("此类用于测试第一个代码生成器");
         generateService.setCreateDate(DateUtil.now());
         generateService.setClassName(convertUnderlineColumnToJavaColumn(generateService.getTableName())+"Service");
         generateService.setTableName(convertUnderlineColumnToJavaColumn(generateService.getTableName())+"Service");
@@ -160,16 +157,10 @@ public class GenerateServiceImpl implements GenerateService {
         return root;
     }
 
-    private Map<String, Object> generateServiceImplData(GenerateDTO generateDTO) {
+    private Map<String, Object> generateServiceImplData(DatabaseDTO dto,GenerateDTO generateDTO) {
         GenerateEntity generateService = new GenerateEntity();
         BeanUtils.copyProperties(generateDTO,generateService);
         Map<String, Object> root = new HashMap<>(16);
-        generateService.setPackageName("com.yi.easycode.modules.service.impl");
-        generateService.setOpenLombok(true);
-        generateService.setOpenSwagger(true);
-        generateService.setOpenSerializable(true);
-        generateService.setAuther("yizhicheng");
-        generateService.setDescription("此类用于测试第一个代码生成器");
         generateService.setCreateDate(DateUtil.now());
         String tmpClassName = convertUnderlineColumnToJavaColumn(generateService.getTableName());
         generateService.setClassName(tmpClassName+"ServiceImpl");
@@ -184,16 +175,10 @@ public class GenerateServiceImpl implements GenerateService {
     }
 
 
-    private Map<String, Object> generateControllerData(GenerateDTO generateDTO) {
+    private Map<String, Object> generateControllerData(DatabaseDTO dto,GenerateDTO generateDTO) {
         GenerateEntity generateController = new GenerateEntity();
         BeanUtils.copyProperties(generateDTO,generateController);
         Map<String, Object> root = new HashMap<>(16);
-        generateController.setPackageName("com.yi.easycode.modules.user.controller");
-        generateController.setOpenLombok(true);
-        generateController.setOpenSwagger(true);
-        generateController.setOpenSerializable(true);
-        generateController.setAuther("yizhicheng");
-        generateController.setDescription("此类用于测试第一个代码生成器");
         generateController.setCreateDate(DateUtil.now());
         generateController.setClassName(convertUnderlineColumnToJavaColumn(generateController.getTableName())+"Controller");
         generateController.setTableName(convertUnderlineColumnToJavaColumn(generateController.getTableName())+"Controller");

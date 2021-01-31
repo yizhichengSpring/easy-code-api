@@ -1,5 +1,8 @@
 package com.yi.easycode.commons.config;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.yi.easycode.commons.enums.DeleteEnums;
+import com.yi.easycode.modules.sys.entity.WhiteUrlEntity;
 import com.yi.easycode.modules.sys.mapper.WhiteUrlMapper;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +29,12 @@ public class IgnoreUrlsConfig {
 
     @Bean
     public List<String> whiteUrls() {
-        List<String> whiteUrls = whiteUrlMapper
-                .selectList(null)
-                .stream().map(x -> x.getUrl())
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("del_flag", DeleteEnums.NORMAL.getCode());
+        List<WhiteUrlEntity> whiteUrlEntities = whiteUrlMapper.selectList(wrapper);
+        List<String> whiteUrls = whiteUrlEntities
+                .stream()
+                .map(x -> x.getUrl())
                 .collect(Collectors.toList());
         return whiteUrls;
     }

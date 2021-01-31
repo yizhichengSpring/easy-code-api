@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * @author yizhicheng
  * @ClassName LoginLogAspect
- * @Description 登录日志切面
+ * @Description 日志切面
  * @Date 2021/1/10 12:23 上午
  **/
 @Component

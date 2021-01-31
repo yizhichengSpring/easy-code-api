@@ -15,6 +15,10 @@ public class GenerateDTO {
      */
     private Integer dataSourceId;
     /**
+     * 数据源name
+     */
+    private Integer dataSourceName;
+    /**
      * 包名
      */
     private String packageName;

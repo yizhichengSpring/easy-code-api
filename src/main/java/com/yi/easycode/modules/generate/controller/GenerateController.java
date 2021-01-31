@@ -36,7 +36,7 @@ public class GenerateController {
 
     @PostMapping("/code")
     @ApiOperation("生成代码")
-    public Result generateCode(GenerateDTO generateDTO) {
+    public Result generateCode(@RequestBody GenerateDTO generateDTO) {
         return generateService.generateCode(generateDTO);
     }
 
