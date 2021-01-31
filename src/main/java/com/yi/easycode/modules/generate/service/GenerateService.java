@@ -4,6 +4,7 @@ import com.yi.easycode.commons.result.Result;
 import com.yi.easycode.modules.auth.vo.SelectVO;
 import com.yi.easycode.modules.generate.dto.GenerateDTO;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public interface GenerateService {
      * @param generateDTO
      * @return
      */
-    Result generateCode(GenerateDTO generateDTO);
+    Result generateCode(GenerateDTO generateDTO, HttpServletResponse response);
 
     /**
      * 获取数据源列表

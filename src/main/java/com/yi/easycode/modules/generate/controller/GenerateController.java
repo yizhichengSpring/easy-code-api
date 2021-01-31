@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -34,10 +35,10 @@ public class GenerateController {
         return generateService.generateList(dto.getPageNum(), dto.getPageSize());
     }
 
-    @PostMapping("/code")
+    @PostMapping(value = "/code",produces = {"application/octet-stream"})
     @ApiOperation("生成代码")
-    public Result generateCode(@RequestBody GenerateDTO generateDTO) {
-        return generateService.generateCode(generateDTO);
+    public Result generateCode(@RequestBody GenerateDTO generateDTO, HttpServletResponse response) {
+        return generateService.generateCode(generateDTO,response);
     }
 
     @GetMapping("/datasourceList")

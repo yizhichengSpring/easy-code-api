@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
@@ -88,9 +89,15 @@ public class GenerateServiceImpl implements GenerateService {
     }
 
     @Override
-    public Result generateCode(GenerateDTO generateDTO) {
-        List<Map<String, Object>> datas = generateData(generateDTO);
-        GenerateUtil.generateCode(datas);
+    public Result generateCode(GenerateDTO generateDTO, HttpServletResponse response) {
+        try {
+            List<Map<String, Object>> datas = generateData(generateDTO);
+            List<Map<String, byte[]>> bytesList = GenerateUtil.generateCode(datas);
+            FileCompressUtils.downloadZipStream(response,bytesList,"code");
+        }catch (Exception e) {
+            log.error("代码生成失败,入参为:{}, 错误原因为:{}",generateDTO,e);
+            return Result.fail(e.getMessage());
+        }
         return Result.success();
     }
 
@@ -109,9 +116,19 @@ public class GenerateServiceImpl implements GenerateService {
         datas.add(generateServiceData(dto,generateDTO));
         datas.add(generateServiceImplData(dto,generateDTO));
         datas.add(generateControllerData(dto,generateDTO));
+        // 保存生成代码日志
+        saveGenerateLog(generateDTO,entity);
         return datas;
     }
 
+    private void saveGenerateLog(GenerateDTO generateDTO,DBInfoEntity entity) {
+        GenerateLogMongo logMongo = new GenerateLogMongo();
+        BeanUtils.copyProperties(generateDTO, logMongo);
+        logMongo.setDataSourceName(entity.getConnectionName());
+        logMongo.setGenerateTime(DateUtil.now());
+        mongoTemplate.save(logMongo);
+    }
+    
     private Map<String, Object> generateEntityData(DatabaseDTO dto,GenerateDTO generateDTO) {
 
         Connection connection = null;
