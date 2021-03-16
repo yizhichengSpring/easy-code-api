@@ -27,14 +27,13 @@ public class FileCompressUtils {
      */
     public static void downloadZipStream(HttpServletResponse response, List<Map<String, byte[]>> compressInfoList, String zipFileName) throws Exception {
         // 对文件名进行编码处理中文问题
-        zipFileName = new String(zipFileName.getBytes(), StandardCharsets.UTF_8);
         // inline在浏览器中直接显示，不提示用户下载,attachment弹出对话框，提示用户进行下载保存本地,默认为inline方式
         response.reset();
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
         response.setHeader("Content-Disposition", "attachment; filename=\"code.zip\"");
         response.setContentType("application/octet-stream; charset=UTF-8");
-        response.addHeader("Content-Length", "" + BUFFER_SIZE);
+        response.addHeader("Content-Length", "" + response.getBufferSize());
         // --设置成这样可以不用保存在本地，再输出，通过response流输出,直接输出到客户端浏览器中。
         ZipOutputStream zos = new ZipOutputStream(response.getOutputStream());
         for (Map<String, byte[]> stringMap : compressInfoList) {
@@ -45,13 +44,6 @@ public class FileCompressUtils {
         }
         zos.close();
 
-    }
-
-    public static void main(String[] args) throws Exception {
-        //将文件压缩到一个zip文件
-        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(new File("D://test//testZipFile.zip")));
-        File srcFile = new File("F:\\01小工具们\\Fish3.270221\\Fish-v327-0221");
-        toZip(srcFile,zos,true);
     }
 
     /**

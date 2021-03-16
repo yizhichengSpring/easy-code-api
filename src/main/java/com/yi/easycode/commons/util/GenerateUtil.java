@@ -31,18 +31,7 @@ public class GenerateUtil {
                 String className  = (String) dataMap.get("className");
                 String packageName  = (String) dataMap.get("packageName");
                 Template template = freemarkerConfiguration.getTemplate("templates/"+templateName);
-//                File tmpFile = new File("/Users/yi/Desktop/code");
-//                if (!tmpFile.exists()) {
-//                    tmpFile.mkdirs();
-//                }
                 String filePackageName = packageName.replace(".","/");
-//                File packageFile = new File(filePackageName);
-//                if (!packageFile.exists()) {
-//                    packageFile.mkdirs();
-//                }
-//                File docFile = new File( filePackageName+ "/"+className+".java");
-//                out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(docFile)));
-//                template.process(dataMap, out);
                 //使用字节流来合并模板,并且将文件输出流直接给压缩,多文件可以使用同一个流,只需要重置
                 ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
                 OutputStreamWriter writer = new OutputStreamWriter(arrayOutputStream);
