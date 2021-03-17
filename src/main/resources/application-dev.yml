@@ -1,7 +1,7 @@
 spring:
   redis:
     database: 0
-    host: 47.95.3.32
+    host: 127.0.0.1
     port: 6379
     password: passw0rd
   datasource:
